@@ -27,7 +27,7 @@ module.exports = (app, connection) => {
             Zip: req.body.Zip
         };
 
-        res.send(bindvars);
+        //res.send(bindvars);
 
         connection.execute(
             "begin Project.insertUser(:UserName,:FirstName,:LastName,:Email,:Pass,:Gender,:ContactNo,:StreetAddress,:City,:State,:Country,:Zip); end;",
@@ -44,12 +44,12 @@ module.exports = (app, connection) => {
 
                 res.json(result.rowsAffected);
 
-                connection.close(function(err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    console.log("close");
-                });
+                // connection.close(function(err) {
+                //     if (err) {
+                //         console.log(err);
+                //     }
+                //     console.log("close");
+                // });
             }
         );
     });
@@ -101,6 +101,58 @@ module.exports = (app, connection) => {
             }
         );
     });
+
+    app.post(
+        "/api/users/education",
+        passport.authenticate("jwt", { session: false }),
+        (req, res) => {
+            const bindvars = {
+                User_account_id: parseInt(req.user.id),
+                DegreeName: req.body.DegreeName,
+                InstituteName: req.body.InstituteName,
+                Cgpa: req.body.Cgpa
+            };
+
+            connection.execute(
+                "begin Project.insertEducation(:User_account_id,:DegreeName,:InstituteName,:Cgpa); end;",
+                bindvars,
+                function(err, result) {
+                    if (err) {
+                        console.log("error");
+                        console.log(err);
+                    } else {
+                        res.send(result[0]);
+                    }
+                }
+            );
+        }
+    );
+
+    app.post(
+        "/api/users/experience",
+        passport.authenticate("jwt", { session: false }),
+        (req, res) => {
+            const bindvars = {
+                User_account_id: parseInt(req.user.id),
+                CompanyName: req.body.CompanyName,
+                Position: req.body.Position,
+                Description: req.body.Description
+            };
+
+            connection.execute(
+                "begin Project.insertExperience(:User_account_id,:CompanyName,:Position,:Description); end;",
+                bindvars,
+                function(err, result) {
+                    if (err) {
+                        console.log("error");
+                        console.log(err);
+                    } else {
+                        res.send(result[0]);
+                    }
+                }
+            );
+        }
+    );
 
     app.get(
         "/api/users/current",
