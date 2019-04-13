@@ -29,26 +29,26 @@ create or replace package Project is
     -- (user_account_id user_account.id%type,
     -- skill_name skills.skill_name%type);
 
-    -- procedure insertEducation
-    -- (user_account_id user_account.id%type,
-    -- degreeName educational_detail.degreeName%type,
-    -- instituteName educational_detail.instituteName%type,
-    -- cgpa educational_detail.cgpa%type);
+    procedure insertEducation
+    (User_account_id user_account.id%type,
+    DegreeName educational_detail.degreeName%type,
+    InstituteName educational_detail.instituteName%type,
+    Cgpa educational_detail.cgpa%type);
 
-    -- procedure insertExperience
-    -- (user_account_id user_account.id%type,
-    -- companyName experience_detail.companyName%type,
-    -- position experience_detail.position%type,
-    -- description experience_detail.description%type);
+    procedure insertExperience
+    (User_account_id user_account.id%type,
+    CompanyName experience_detail.companyName%type,
+    Position experience_detail.position%type,
+    Description experience_detail.description%type);
 
-    -- procedure insertCompany
-    -- (userName company_account.userName%type,
-    -- pass company_account.pass%type,
-    -- companyName company_account.companyName%type,
-    -- email company_account.email%type,
-    -- bussinessStream company_account.bussinessStream%type,
-    -- description company_account.description%type,
-    -- websiteUrl company_account.websiteUrl%type);
+    procedure insertCompany
+    (UserName company_account.userName%type,
+    Pass company_account.pass%type,
+    CompanyName company_account.companyName%type,
+    Email company_account.email%type,
+    BussinessStream company_account.bussinessStream%type,
+    Description company_account.description%type,
+    WebsiteUrl company_account.websiteUrl%type);
 end Project;
 /
 

@@ -16,25 +16,29 @@ async function run() {
             connectString: "localhost/Bank"
         });
         console.log("connect");
-
+        //"begin Project.insertUser(:u1, :u2, :u3, :u4, :u5, :u6 ,:u7,:p1,:p2,:p3,:p4,:p5); end;"
         //const sqlQuery = `Project.insertAddress(:1, :2, :3, :4, :5);`;insert into addresses(id, streetAddress,city,state,country,zip) values (2, 'main', 'bokaro','jahrk','india','ytu');
         var bindvars = {
+            // e1: 1,
+            // e2: "b.tech",
+            // e3: "IIITA",
+            // e4: "9.8"
             u1: "Jaggu",
             u2: "Manish",
             u3: "Jagnani",
             u4: "mha@gmail.com",
             u5: "Manish",
             u6: "male",
-            u7: 9113789552,
-            p1: "offyu",
-            p2: "lkijo",
-            p3: "lofgrhk",
-            p4: "lhfdgkj",
-            p5: "lgdfgjh"
+            u7: "lorem ipsum"
+            // p1: "offyu",
+            // p2: "lkijo",
+            // p3: "lofgrhk",
+            // p4: "lhfdgkj",
+            // p5: "lgdfgjh"
         };
 
         connection.execute(
-            "begin Project.insertUser(:u1, :u2, :u3, :u4, :u5, :u6 ,:u7, :p1,:p2,:p3,:p4,:p5); end;",
+            "begin Project.insertCompany(:u1, :u2, :u3,:u4,:u5,:u6,:u7); end;",
             bindvars,
             function(err, result) {
                 if (err) {

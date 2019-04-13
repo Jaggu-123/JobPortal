@@ -15,15 +15,15 @@ create table addresses(id number(10) primary key not null,
     zip varchar(15)
 );
 
-create sequence seqLanguage
-minvalue 1
-start with 1
-increment by 1
-cache 10;
+-- create sequence seqLanguage
+-- minvalue 1
+-- start with 1
+-- increment by 1
+-- cache 10;
 
-create table languages(id int not null primary key,
-    language_name varchar(30)
-);
+-- create table languages(id int not null primary key,
+--     language_name varchar(30)
+-- );
 
 -- create sequence seqSkill
 -- minvalue 1
@@ -57,53 +57,53 @@ create table user_account(id int primary key not null,
 --     primary key(id, user_account_id)
 -- );
 
-create table user_language(id int not null references languages(id),
+-- create table user_language(id int not null references languages(id),
+--     user_account_id int not null references user_account(id),
+--     primary key(id, user_account_id)
+-- );
+
+create sequence seqEducation
+minvalue 1
+start with 1
+increment by 1
+cache 10;
+
+create table educational_detail(id int not null primary key,
     user_account_id int not null references user_account(id),
-    primary key(id, user_account_id)
+    degreeName varchar(30),
+    instituteName varchar(30),
+    cgpa varchar(10)
 );
 
--- create sequence seqEducation
--- minvalue 1
--- start with 1
--- increment by 1
--- cache 10;
+create sequence seqExperience
+minvalue 1
+start with 1
+increment by 1
+cache 10;
 
--- create table educational_detail(id int not null primary key,
---     user_account_id int not null references user_account(id),
---     degreeName varchar(30),
---     instituteName varchar(30),
---     cgpa varchar(10)
--- );
+create table experience_detail(id int not null primary key,
+    user_account_id int not null references user_account(id),
+    companyName varchar(30),
+    position varchar(30),
+    description varchar(100)
+);
 
--- create sequence seqExperience
--- minvalue 1
--- start with 1
--- increment by 1
--- cache 10;
+--company profile
+create sequence seqCompany
+minvalue 1
+start with 1
+increment by 1
+cache 10;
 
--- create table experience_detail(id int not null primary key,
---     user_account_id int not null references user_account(id),
---     companyName varchar(30),
---     position varchar(30),
---     description varchar(100)
--- );
-
--- --company profile
--- create sequence seqCompany
--- minvalue 1
--- start with 1
--- increment by 1
--- cache 10;
-
--- create table company_account(id int primary key not null,
---     userName varchar(15) not null,
---     pass varchar(30) not null,
---     companyName varchar(30) not null,
---     email varchar(50),
---     bussinessStream varchar(40),
---     description varchar(100),
---     websiteUrl varchar(30)
--- );
+create table company_account(id int primary key not null,
+    userName varchar(15) not null,
+    pass varchar(30) not null,
+    companyName varchar(30) not null,
+    email varchar(50),
+    bussinessStream varchar(40),
+    description varchar(100),
+    websiteUrl varchar(30)
+);
 
 -- --job post
 -- create sequence seqJobType
