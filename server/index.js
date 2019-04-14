@@ -6,11 +6,11 @@ oracledb.autoCommit = true;
 const app = express();
 
 const mypass = "Manish9113789552";
-let connection;
+let conn;
 
 async function run() {
     try {
-        connection = await oracledb.getConnection({
+        conn = await oracledb.getConnection({
             user: "SYSTEM",
             password: mypass,
             connectString: "localhost/Bank"
@@ -19,47 +19,50 @@ async function run() {
         //"begin Project.insertUser(:u1, :u2, :u3, :u4, :u5, :u6 ,:u7,:p1,:p2,:p3,:p4,:p5); end;"
         //const sqlQuery = `Project.insertAddress(:1, :2, :3, :4, :5);`;insert into addresses(id, streetAddress,city,state,country,zip) values (2, 'main', 'bokaro','jahrk','india','ytu');
         var bindvars = {
-            // e1: 1,
-            // e2: "b.tech",
-            // e3: "IIITA",
-            // e4: "9.8"
-            u1: "Jaggu",
-            u2: "Manish",
-            u3: "Jagnani",
-            u4: "mha@gmail.com",
-            u5: "Manish",
-            u6: "male",
-            u7: "lorem ipsum"
-            // p1: "offyu",
-            // p2: "lkijo",
-            // p3: "lofgrhk",
-            // p4: "lhfdgkj",
-            // p5: "lgdfgjh"
+            ini: "Manish",
+            oui: {
+                dir: oracledb.BIND_OUT,
+                type: oracledb.STRING,
+                maxSize: 32767
+            },
+            otyui: {
+                dir: oracledb.BIND_OUT,
+                type: oracledb.STRING,
+                maxSize: 32767
+            }
         };
 
-        connection.execute(
-            "begin Project.insertCompany(:u1, :u2, :u3,:u4,:u5,:u6,:u7); end;",
-            bindvars,
-            function(err, result) {
-                if (err) {
-                    error = err;
-                    return;
-                }
-                console.log("kuvh");
-                console.log(result);
-                user = result.rowsAffected;
-                error = null;
+        // conn.execute("begin AddressHere(:ini, :oui); end;", bindvars, function(
+        //     err,
+        //     result
+        // ) {
+        //     if (err) {
+        //         error = err;
+        //         return;
+        //     }
+        //     console.log(bindvars);
+        //     console.log("kuvh");
+        //     console.log(result);
+        //     user = result.rowsAffected;
+        //     error = null;
 
-                console.log(result.rowsAffected);
+        //     console.log(result.rowsAffected);
 
-                connection.close(function(err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    console.log("close");
-                });
-            }
+        //     // connection.close(function(err) {
+        //     //     if (err) {
+        //     //         console.log(err);
+        //     //     }
+        //     //     console.log("close");
+        //     // });
+        // });
+
+        const result = await conn.execute(
+            "begin AddressHere(:ini, :oui,:otyui); end;",
+            bindvars
         );
+
+        console.log(result.outBinds);
+        //console.log(bindvars);
 
         // connection.execute(
         //     `insert into addresses(id, streetAddress, city, state, country, zip)

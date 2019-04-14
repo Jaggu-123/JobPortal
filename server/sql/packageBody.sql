@@ -100,3 +100,14 @@ end Project;
 -- end;
 -- /
 
+-- create or replace procedure AddressHere(
+--     vari in varchar,
+--     outi out varchar,
+--     jag out varchar)
+-- as
+
+-- begin
+--       outi := vari;
+--       jag := 'jagnani';
+-- end;
+-- /

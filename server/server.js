@@ -22,6 +22,7 @@ oracledb
         console.log("connect");
         require("./config/passport")(password, connection);
         require("./routes/userRoutes")(app, connection);
+        require("./routes/companyRoutes")(app, connection);
     })
     .catch(err => {
         console.log(err);
