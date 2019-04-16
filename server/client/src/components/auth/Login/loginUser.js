@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import classnames from "classnames";
+import { connect } from "react-redux";
+import { loginUser } from "../../../actions/authActions";
 
-class loginUser extends Component {
+class LoginUser extends Component {
     constructor() {
         super();
         this.state = {
@@ -28,16 +29,18 @@ class loginUser extends Component {
         };
 
         console.log(user);
+        this.props.loginUser(user);
     }
 
     render() {
+        console.log(this.props.auth);
         return (
             <div className="col-lg-6">
                 <h2 className="mb-4">Log In as Employee</h2>
                 <form onSubmit={this.onSubmit} className="p-4 border rounded">
                     <div className="row form-group">
                         <div className="col-md-12 mb-3 mb-md-0">
-                            <label className="text-black" for="fname">
+                            <label className="text-black" htmlFor="fname">
                                 UserName
                             </label>
                             <input
@@ -53,7 +56,7 @@ class loginUser extends Component {
                     </div>
                     <div className="row form-group mb-4">
                         <div className="col-md-12 mb-3 mb-md-0">
-                            <label className="text-black" for="fname">
+                            <label className="text-black" htmlFor="fname">
                                 Password
                             </label>
                             <input
@@ -91,4 +94,11 @@ class loginUser extends Component {
     }
 }
 
-export default loginUser;
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(
+    mapStateToProps,
+    { loginUser }
+)(LoginUser);

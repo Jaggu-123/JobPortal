@@ -1,19 +1,28 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
-    "jsonwebtoken": "^8.5.1",
-    "oracledb": "^3.1.2",
-    "passport": "^0.4.0",
-    "passport-jwt": "^4.0.0"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "engine": {
+        "node": "8.12.0",
+        "npm": "6.6.0"
+    },
+    "scripts": {
+        "start": "node server.js",
+        "server": "nodemon server.js",
+        "client": "npm run start --prefix client",
+        "dev": "concurrently \"npm run server\" \"npm run client\""
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "concurrently": "^4.1.0",
+        "express": "^4.16.4",
+        "jsonwebtoken": "^8.5.1",
+        "nodemon": "^1.18.11",
+        "oracledb": "^3.1.2",
+        "passport": "^0.4.0",
+        "passport-jwt": "^4.0.0"
+    }
 }

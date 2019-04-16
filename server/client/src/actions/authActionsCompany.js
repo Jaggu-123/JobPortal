@@ -2,18 +2,18 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-export const registerUser = (userData, history) => dispatch => {
+export const registerCompany = (userData, history) => dispatch => {
     axios
-        .post("/api/users/register", userData)
+        .post("/api/company/register", userData)
         .then(res => console.log(res))
         .catch(err => console.log(err));
 };
 
 // Login - Get User Token
-export const loginUser = userData => dispatch => {
+export const loginCompany = userData => dispatch => {
     console.log(userData);
     axios
-        .post("/api/users/login", userData)
+        .post("/api/company/login", userData)
         .then(res => {
             // Save to localStorage
             const { token } = res.data;
@@ -24,14 +24,14 @@ export const loginUser = userData => dispatch => {
             // Decode token to get user data
             const decoded = jwt_decode(token);
             // Set current user
-            dispatch(setCurrentUser(decoded));
+            dispatch(setCurrentCompany(decoded));
             console.log(decoded);
         })
         .catch(err => console.log(err));
 };
 
 // Set logged in user
-export const setCurrentUser = decoded => {
+export const setCurrentCompany = decoded => {
     return {
         type: "SET_CURRENT_USER",
         payload: decoded
@@ -39,11 +39,11 @@ export const setCurrentUser = decoded => {
 };
 
 // Log user out
-export const logoutUser = () => dispatch => {
+export const logoutCompany = () => dispatch => {
     // Remove token from localStorage
     localStorage.removeItem("jwtToken");
     // Remove auth header for future requests
     setAuthToken(false);
     // Set current user to {} which will set isAuthenticated to false
-    dispatch(setCurrentUser({}));
+    dispatch(setCurrentCompany({}));
 };

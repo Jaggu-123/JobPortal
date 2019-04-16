@@ -105,38 +105,38 @@ create table company_account(id int primary key not null,
     websiteUrl varchar(30)
 );
 
---job post
--- create sequence seqJobType
--- minvalue 1
--- start with 1
--- increment by 1
--- cache 10;
+job post
+create sequence seqJobType
+minvalue 1
+start with 1
+increment by 1
+cache 10;
 
--- create table job_post(id int primary key not null,
---     jobPostName varchar(30)
--- );
+create table job_post(id int primary key not null,
+    jobPostName varchar(30)
+);
 
--- create sequence seqJobEvent
--- minvalue 1
--- start with 1
--- increment by 1
--- cache 10;
+create sequence seqJobEvent
+minvalue 1
+start with 1
+increment by 1
+cache 10;
 
--- create table job_event(id int primary key not null,
---     company_id int not null references company_account(id),
---     job_post_id int not null references job_post(id),
---     isActive int not null,
---     jobDescription varchar(1000),
---     salary varchar(100),
---     skill varchar(30),
---     job_type varchar(30),
---     addressID int references addresses(id)
--- );
+create table job_event(id int primary key not null,
+    company_id int not null references company_account(id),
+    job_post_id int not null references job_post(id),
+    isActive int not null,
+    jobDescription varchar(1000),
+    salary varchar(100),
+    skill varchar(30),
+    job_type varchar(30),
+    addressID int references addresses(id)
+);
 
--- create table job_skill(id int not null references skills(id),
---     job_id int not null references job_event(id),
---     primary key(id, job_id) 
--- );
+create table job_skill(id int not null references skills(id),
+    job_id int not null references job_event(id),
+    primary key(id, job_id) 
+);
 
 create table job_activity(id int not null references job_event(id),
     user_account_id int not null references user_account(id),

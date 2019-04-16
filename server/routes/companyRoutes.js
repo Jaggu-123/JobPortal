@@ -1,5 +1,10 @@
+const jwt = require("jsonwebtoken");
+const passport = require("passport");
+
 module.exports = (app, connection) => {
-    app.post("api/company/register", (req, res) => {
+    app.post("/api/company/register", (req, res) => {
+        console.log("eror");
+        console.log(req.body);
         const bindvars = {
             UserName: req.body.UserName,
             Pass: req.body.Pass,
@@ -24,7 +29,7 @@ module.exports = (app, connection) => {
         );
     });
 
-    app.post("api/company/login", (req, res) => {
+    app.post("/api/company/login", (req, res) => {
         const value = {
             UserName: req.body.UserName,
             Pass: req.body.Pass
@@ -42,6 +47,7 @@ module.exports = (app, connection) => {
                     console.log("username not matched");
                     console.log(err);
                 } else {
+                    console.log(result);
                     const password = result.rows[0][2];
 
                     if (password != value.Pass) {
@@ -51,7 +57,8 @@ module.exports = (app, connection) => {
 
                         const payload = {
                             id: result.rows[0][0],
-                            name: result.rows[0][3]
+                            name: result.rows[0][3],
+                            type: 2
                         };
 
                         jwt.sign(
@@ -70,4 +77,18 @@ module.exports = (app, connection) => {
             }
         );
     });
+
+    app.get(
+        "/api/company/current",
+        passport.authenticate("jwt", { session: false }),
+        (req, res) => {
+            //res.json({ msg: "Success" });
+            // res.json(req.user);
+            res.json({
+                id: req.company.id,
+                name: req.company.companyName,
+                email: req.company.email
+            });
+        }
+    );
 };

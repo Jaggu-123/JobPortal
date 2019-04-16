@@ -32,29 +32,29 @@ async function run() {
             }
         };
 
-        // conn.execute("begin AddressHere(:ini, :oui); end;", bindvars, function(
-        //     err,
-        //     result
-        // ) {
-        //     if (err) {
-        //         error = err;
-        //         return;
-        //     }
-        //     console.log(bindvars);
-        //     console.log("kuvh");
-        //     console.log(result);
-        //     user = result.rowsAffected;
-        //     error = null;
+        conn.execute("select * from company_account", {}, function(
+            err,
+            result
+        ) {
+            if (err) {
+                error = err;
+                return;
+            }
+            console.log(bindvars);
+            console.log("kuvh");
+            console.log(result);
+            user = result.rowsAffected;
+            error = null;
 
-        //     console.log(result.rowsAffected);
+            console.log(result.rows);
 
-        //     // connection.close(function(err) {
-        //     //     if (err) {
-        //     //         console.log(err);
-        //     //     }
-        //     //     console.log("close");
-        //     // });
-        // });
+            // connection.close(function(err) {
+            //     if (err) {
+            //         console.log(err);
+            //     }
+            //     console.log("close");
+            // });
+        });
 
         const result = await conn.execute(
             "begin AddressHere(:ini, :oui,:otyui); end;",

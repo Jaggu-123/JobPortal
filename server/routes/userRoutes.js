@@ -82,7 +82,8 @@ module.exports = (app, connection) => {
 
                         const payload = {
                             id: result.rows[0][0],
-                            name: result.rows[0][1]
+                            name: result.rows[0][1],
+                            type: 1
                         };
 
                         jwt.sign(
