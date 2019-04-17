@@ -12,6 +12,9 @@ import Login from "./components/auth/Login/login";
 import RegisterPost from "./components/auth/Register/registerPost";
 import RegisterCompany from "./components/auth/Register/registerCompany";
 import RegisterUser from "./components/auth/Register/registerUser";
+import RegisterEdu from "./components/auth/Register/registerEducation";
+import SingleJob from "./components/singleJob";
+import Jobs from "./components/companyTab";
 
 class App extends Component {
     render() {
@@ -21,6 +24,8 @@ class App extends Component {
                     <div className="App">
                         <Navbar />
                         <Route exact path="/" component={Landing} />
+                        <Route exact path="/job/:jobid" component={SingleJob} />
+                        <Route exact path="/" component={Jobs} />
                         <Route exact path="/login" component={Login} />
                         <Route
                             exact
@@ -30,7 +35,7 @@ class App extends Component {
                         <Route
                             exact
                             path="/registerCompany"
-                            component={RegisterCompany}
+                            component={RegisterEdu}
                         />
                         <Route
                             exact

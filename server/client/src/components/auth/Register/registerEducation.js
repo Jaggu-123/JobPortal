@@ -5,11 +5,11 @@ const style = {
     backgroundImage: `url("images/landing.jpg")`
 };
 
-class registerUser extends Component {
+class Register extends Component {
     constructor() {
         super();
         this.state = {
-            name: "",
+            firstName: "",
             email: "",
             password: "",
             password2: "",
@@ -49,15 +49,16 @@ class registerUser extends Component {
                         <div className="row">
                             <div className="col-md-7">
                                 <h1 className="text-white font-weight-bold">
-                                    Register as company
+                                    Register User
                                 </h1>
                                 <div className="custom-breadcrumbs">
                                     <Link to="/">Home</Link>
                                     <span className="mx-2 slash">/</span>
                                     <Link to="job">Job</Link>
+
                                     <span className="mx-2 slash">/</span>
                                     <span className="text-white">
-                                        <strong>Register as company</strong>
+                                        <strong>Register User</strong>
                                     </span>
                                 </div>
                             </div>
@@ -71,7 +72,7 @@ class registerUser extends Component {
                             <div className="col-lg-8 mb-4 mb-lg-0">
                                 <div className="d-flex align-items-center">
                                     <div>
-                                        <h2>Register as company</h2>
+                                        <h2>Register User</h2>
                                     </div>
                                 </div>
                             </div>
@@ -80,18 +81,9 @@ class registerUser extends Component {
                                     <div className="col-6">
                                         <a
                                             href="#"
-                                            className="btn btn-block btn-light btn-md"
-                                        >
-                                            <span className="icon-open_in_new mr-2" />
-                                            Preview
-                                        </a>
-                                    </div>
-                                    <div className="col-6">
-                                        <a
-                                            href="#"
                                             className="btn btn-block btn-primary btn-md"
                                         >
-                                            Save Job
+                                            Sign Up
                                         </a>
                                     </div>
                                 </div>
@@ -104,103 +96,177 @@ class registerUser extends Component {
                                     method="post"
                                 >
                                     <h3 class="text-black my-5 border-bottom pb-2">
-                                        Company Details
+                                        User Details
                                     </h3>
+
                                     <div class="form-group">
                                         <label for="company-name">
-                                            Company Name
+                                            First Name
                                         </label>
                                         <input
                                             type="text"
                                             class="form-control"
                                             id="company-name"
-                                            placeholder="e.g. New York"
+                                            name="firstName"
+                                            placeholder="e.g. John"
                                         />
                                     </div>
 
                                     <div class="form-group">
                                         <label for="company-tagline">
-                                            Tagline (Optional)
+                                            Last Name
                                         </label>
                                         <input
                                             type="text"
                                             class="form-control"
                                             id="company-tagline"
-                                            placeholder="e.g. New York"
-                                        />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="job-description">
-                                            Company Description (Optional)
-                                        </label>
-                                        <textarea
-                                            name=""
-                                            id=""
-                                            cols="30"
-                                            rows="10"
-                                            class="form-control"
-                                        >
-                                            Description
-                                        </textarea>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="company-website">
-                                            Website (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="company-website"
-                                            placeholder="https://"
-                                        />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="company-website-fb">
-                                            Facebook Username (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="company-website-fb"
-                                            placeholder="companyname"
-                                        />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="company-website-tw">
-                                            Twitter Username (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="company-website-tw"
-                                            placeholder="@companyname"
+                                            placeholder="e.g. Sturgis"
                                         />
                                     </div>
                                     <div class="form-group">
-                                        <label for="company-website-tw">
-                                            Linkedin Username (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="company-website-tw"
-                                            placeholder="companyname"
-                                        />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="company-website-tw d-block">
-                                            Upload Logo
-                                        </label>
+                                        <label for="company-name">Gender</label>
                                         <br />
-                                        <label class="btn btn-primary btn-md btn-file">
-                                            Browse File
-                                            <input type="file" hidden />
+                                        <input
+                                            type="radio"
+                                            name="gender"
+                                            value="Male"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder="e.g. JohnSturgis0012"
+                                        />
+                                        <label>Male</label>
+                                        <br />
+                                        <input
+                                            type="radio"
+                                            name="gender"
+                                            value="Female"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder="e.g. JohnSturgis0012"
+                                        />
+                                        <label>Female</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-name">
+                                            Email Id
                                         </label>
+                                        <input
+                                            type="email"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder=""
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-name">
+                                            Phone number
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            pattern="[0-9]{10}"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder=""
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-name">
+                                            Create a Username
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder="e.g. JohnSturgis0012"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="company-name">
+                                            Create your password
+                                        </label>
+                                        <input
+                                            type="password"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder=""
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-name">
+                                            Re-enter your password
+                                        </label>
+                                        <input
+                                            type="password"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder=""
+                                        />
+                                    </div>
+                                    <h3>Address</h3>
+                                    <div class="form-group">
+                                        <label for="company-name">
+                                            Door no.
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder=""
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-name">
+                                            Street, Area
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder=""
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="company-name">City</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder=""
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-name">State</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder=""
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-name">
+                                            Country
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder=""
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-name">
+                                            Pin Code
+                                        </label>
+                                        <input
+                                            type="tel"
+                                            pattern="[0-9]{4}"
+                                            class="form-control"
+                                            id="company-name"
+                                            placeholder=""
+                                        />
                                     </div>
                                 </form>
                             </div>
@@ -211,18 +277,9 @@ class registerUser extends Component {
                                     <div className="col-6">
                                         <a
                                             href="#"
-                                            className="btn btn-block btn-light btn-md"
-                                        >
-                                            <span className="icon-open_in_new mr-2" />
-                                            Preview
-                                        </a>
-                                    </div>
-                                    <div className="col-6">
-                                        <a
-                                            href="#"
                                             className="btn btn-block btn-primary btn-md"
                                         >
-                                            Save Job
+                                            Sign Up
                                         </a>
                                     </div>
                                 </div>
@@ -235,4 +292,4 @@ class registerUser extends Component {
     }
 }
 
-export default registerUser;
+export default Register;
