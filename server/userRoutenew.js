@@ -13,18 +13,18 @@ module.exports = (app, connection) => {
         //console.log(req);
         //console.log(req.body);
         const bindvars = {
-            UserName: req.body.userName,
-            FirstName: req.body.firstName,
-            LastName: req.body.lastName,
-            Email: req.body.email,
-            Pass: req.body.pass,
-            Gender: req.body.gender,
-            ContactNo: parseInt(req.body.contactNo),
-            StreetAddress: req.body.streetAddress,
-            City: req.body.city,
-            State: req.body.state,
-            Country: req.body.country,
-            Zip: req.body.zip
+            UserName: req.body.UserName,
+            FirstName: req.body.FirstName,
+            LastName: req.body.LastName,
+            Email: req.body.Email,
+            Pass: req.body.Pass,
+            Gender: req.body.Gender,
+            ContactNo: parseInt(req.body.ContactNo),
+            StreetAddress: req.body.StreetAddress,
+            City: req.body.City,
+            State: req.body.State,
+            Country: req.body.Country,
+            Zip: req.body.Zip
         };
 
         //res.send(bindvars);
@@ -82,8 +82,7 @@ module.exports = (app, connection) => {
 
                         const payload = {
                             id: result.rows[0][0],
-                            name: result.rows[0][1],
-                            type: 1
+                            name: result.rows[0][1]
                         };
 
                         jwt.sign(
@@ -168,4 +167,109 @@ module.exports = (app, connection) => {
             });
         }
     );
+    app.delete("/api/users/delete", (req, res) => {
+        //console.log("request");
+        //console.log(req);
+        //console.log(req.body);
+        const bindvars = {
+            id: req.user.id
+        };
+
+        //res.send(bindvars);
+
+        connection.execute(
+            "begin Project_Del.deleteUser(:id); end;",
+            bindvars,
+            function(err, result) {
+                if (err) {
+                    error = err;
+                    return;
+                }
+                console.log("kuvh");
+                console.log(result);
+                user = result.rowsAffected;
+                error = null;
+
+                res.json(result.rowsAffected);
+
+                // connection.close(function(err) {
+                //     if (err) {
+                //         console.log(err);
+                //     }
+                //     console.log("close");
+                // });
+            }
+        );
+    });
+
+    app.delete(
+        "/api/users/delete/education",
+        passport.authenticate("jwt", { session: false }),
+        (req, res) => {
+            const bindvars = {
+                id: req.body.id
+            };
+
+            connection.execute(
+                "begin Project_Del.deleteEducation(:id); end;",
+                bindvars,
+                function(err, result) {
+                    if (err) {
+                        console.log("error");
+                        console.log(err);
+                    } else {
+                        res.send(result[0]);
+                    }
+                }
+            );
+        }
+    );
+
+    app.delete(
+        "/api/users/delete/experience",
+        passport.authenticate("jwt", { session: false }),
+        (req, res) => {
+            const bindvars = {
+                id: req.body.id
+            };
+
+            connection.execute(
+                "begin Project_Del.deleteExperience(:id); end;",
+                bindvars,
+                function(err, result) {
+                    if (err) {
+                        console.log("error");
+                        console.log(err);
+                    } else {
+                        res.send(result[0]);
+                    }
+                }
+            );
+        }
+    );
+     app.delete(
+        "/api/users/delete/address",
+        passport.authenticate("jwt", { session: false }),
+        (req, res) => {
+            const bindvars = {
+                id: req.body.id
+            };
+
+            connection.execute(
+                "begin Project_Del.deleteAddress(:id); end;",
+                bindvars,
+                function(err, result) {
+                    if (err) {
+                        console.log("error");
+                        console.log(err);
+                    } else {
+                        res.send(result[0]);
+                    }
+                }
+            );
+        }
+    );
+
+
+
 };

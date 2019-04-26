@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { loginCompany } from "../../../actions/authActionsCompany";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 class LoginCompany extends Component {
     constructor() {
@@ -29,7 +30,7 @@ class LoginCompany extends Component {
         };
 
         console.log(user);
-        this.props.loginCompany(user);
+        this.props.loginCompany(user, this.props.history);
     }
 
     render() {
@@ -100,4 +101,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { loginCompany }
-)(LoginCompany);
+)(withRouter(LoginCompany));

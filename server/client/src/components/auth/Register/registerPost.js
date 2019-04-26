@@ -1,19 +1,28 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { registerPost } from "../../../actions/authActionsCompany";
+import { connect } from "react-redux";
 
 const style = {
     backgroundImage: `url("images/landing.jpg")`
 };
 
-class registerPost extends Component {
+class RegisterPost extends Component {
     constructor() {
         super();
         this.state = {
-            name: "",
-            email: "",
-            password: "",
-            password2: "",
-            errors: {}
+            description: "",
+            active: "",
+            salary: "",
+            skill: "",
+            jobPost: "",
+            jobType: "",
+            streetAddress: "",
+            city: "",
+            state: "",
+            country: "",
+            zip: ""
         };
 
         this.onChange = this.onChange.bind(this);
@@ -28,10 +37,17 @@ class registerPost extends Component {
         e.preventDefault();
 
         const newUser = {
-            name: this.state.name,
-            email: this.state.email,
-            password: this.state.password,
-            password2: this.state.password2
+            description: this.state.description,
+            active: this.state.active,
+            salary: this.state.salary,
+            skill: this.state.skill,
+            jobPost: this.state.jobPost,
+            jobType: this.state.jobType,
+            streetAddress: this.state.streetAddress,
+            city: this.state.city,
+            state: this.state.state,
+            country: this.state.country,
+            zip: this.state.zip
         };
 
         console.log(newUser);
@@ -108,96 +124,149 @@ class registerPost extends Component {
                                     </h3>
 
                                     <div className="form-group">
-                                        <label for="company-website-tw d-block">
-                                            Upload Featured Image
+                                        <label for="email">
+                                            Job Description
                                         </label>
-                                        <br />
-                                        <label className="btn btn-primary btn-md btn-file">
-                                            Browse File
-                                            <input type="file" hidden />
-                                        </label>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label for="email">Email</label>
                                         <input
                                             type="text"
                                             className="form-control"
                                             id="email"
-                                            placeholder="you@yourdomain.com"
+                                            placeholder=""
+                                            name="description"
+                                            onChange={this.onChange}
+                                            value={this.state.description}
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label for="job-title">Job Title</label>
+                                        <label for="job-title">Active</label>
                                         <input
                                             type="text"
                                             className="form-control"
                                             id="job-title"
-                                            placeholder="Product Designer"
+                                            placeholder="Yes"
+                                            name="active"
+                                            onChange={this.onChange}
+                                            value={this.state.active}
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label for="job-location">
-                                            Location
-                                        </label>
+                                        <label for="job-location">Salary</label>
                                         <input
                                             type="text"
                                             className="form-control"
                                             id="job-location"
-                                            placeholder="e.g. New York"
+                                            placeholder="500000"
+                                            name="salary"
+                                            onChange={this.onChange}
+                                            value={this.state.salary}
                                         />
                                     </div>
 
                                     <div className="form-group">
-                                        <label for="job-region">
-                                            Job Region
-                                        </label>
-                                        <select
-                                            className="selectpicker border rounded"
+                                        <label for="job-region">Skill</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
                                             id="job-region"
-                                            data-style="btn-black"
-                                            data-width="100%"
-                                            data-live-search="true"
-                                            title="Select Region"
-                                        >
-                                            <option>Anywhere</option>
-                                            <option>San Francisco</option>
-                                            <option>Palo Alto</option>
-                                            <option>New York</option>
-                                            <option>Manhattan</option>
-                                            <option>Ontario</option>
-                                            <option>Toronto</option>
-                                            <option>Kansas</option>
-                                            <option>Mountain View</option>
-                                        </select>
+                                            placeholder="Web Developer"
+                                            name="skill"
+                                            onChange={this.onChange}
+                                            value={this.state.skill}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label for="job-region">Job Post</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="job-region"
+                                            placeholder="Web Developer"
+                                            name="jobPost"
+                                            onChange={this.onChange}
+                                            value={this.state.jobPost}
+                                        />
                                     </div>
 
                                     <div className="form-group">
                                         <label for="job-type">Job Type</label>
-                                        <select
-                                            className="selectpicker border rounded"
-                                            id="job-type"
-                                            data-style="btn-black"
-                                            data-width="100%"
-                                            data-live-search="true"
-                                            title="Select Job Type"
-                                        >
-                                            <option>Part Time</option>
-                                            <option>Full Time</option>
-                                        </select>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="job-region"
+                                            placeholder="part-time or full-time"
+                                            name="jobType"
+                                            onChange={this.onChange}
+                                            value={this.state.jobType}
+                                        />
                                     </div>
 
-                                    <div className="form-group">
-                                        <label for="job-description">
-                                            Job Description
+                                    <div class="form-group">
+                                        <label for="company-website">
+                                            Street Address
                                         </label>
-                                        <textarea
-                                            name=""
-                                            id=""
-                                            cols="30"
-                                            rows="10"
-                                            className="form-control"
-                                            placeholder="Write Job Description"
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-website"
+                                            placeholder=""
+                                            name="streetAddress"
+                                            value={this.state.streetAddress}
+                                            onChange={this.onChange}
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="company-website-fb">
+                                            City
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-website-fb"
+                                            name="city"
+                                            value={this.state.city}
+                                            onChange={this.onChange}
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="company-website-tw">
+                                            State
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-website-tw"
+                                            name="State"
+                                            value={this.state.State}
+                                            onChange={this.onChange}
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-website-tw">
+                                            Country
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-website-tw"
+                                            name="country"
+                                            value={this.state.country}
+                                            onChange={this.onChange}
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-website-tw">
+                                            zip
+                                        </label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="company-website-tw"
+                                            name="zip"
+                                            value={this.state.zip}
+                                            onChange={this.onChange}
                                         />
                                     </div>
                                 </form>
@@ -233,4 +302,7 @@ class registerPost extends Component {
     }
 }
 
-export default registerPost;
+export default connect(
+    null,
+    { registerPost }
+)(withRouter(RegisterPost));

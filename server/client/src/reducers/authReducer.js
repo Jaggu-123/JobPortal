@@ -11,6 +11,8 @@ export default function(state = initialState, action) {
                 isAuthenticated: true,
                 user: action.payload
             };
+        case "UNSET_CURRENT_USER":
+            return initialState;
         default:
             return state;
     }

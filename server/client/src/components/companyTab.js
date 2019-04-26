@@ -92,7 +92,7 @@ class CompanyTab extends Component {
 }
 
 const mapStateToProps = state => ({
-    jobs: state.jobs
+    jobs: state.alljobs
 });
 
 export default connect(

@@ -15,6 +15,7 @@ import RegisterUser from "./components/auth/Register/registerUser";
 import RegisterEdu from "./components/auth/Register/registerEducation";
 import SingleJob from "./components/singleJob";
 import Jobs from "./components/companyTab";
+import IndexPage from "./components/indexpage";
 
 class App extends Component {
     render() {
@@ -27,6 +28,7 @@ class App extends Component {
                         <Route exact path="/job/:jobid" component={SingleJob} />
                         <Route exact path="/" component={Jobs} />
                         <Route exact path="/login" component={Login} />
+                        <Route exact path="/searchpage" component={IndexPage} />
                         <Route
                             exact
                             path="/registerPost"
@@ -35,7 +37,7 @@ class App extends Component {
                         <Route
                             exact
                             path="/registerCompany"
-                            component={RegisterEdu}
+                            component={RegisterCompany}
                         />
                         <Route
                             exact

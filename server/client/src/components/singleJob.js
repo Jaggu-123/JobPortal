@@ -1,10 +1,18 @@
 import React, { Component } from "react";
+import { searchJobID } from "../actions/getJobs";
+import { connect } from "react-redux";
 
 const style = {
     backgroundImage: `url("images/landing.jpg")`
 };
 
 class SingleJob extends Component {
+    componentDidMount() {
+        const bindval = {
+            id: this.props.match.params.jobid
+        };
+        this.props.searchJobID(bindval);
+    }
     render() {
         return (
             <div>
@@ -366,4 +374,7 @@ class SingleJob extends Component {
     }
 }
 
-export default SingleJob;
+export default connect(
+    null,
+    { searchJobID }
+)(SingleJob);

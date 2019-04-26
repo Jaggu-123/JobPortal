@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
 import authReducer from "./authReducer";
 import jobReducer from "./jobReducer";
+import alljobReducer from "./alljobReducer";
 
 export default combineReducers({
     auth: authReducer,
-    jobs: jobReducer
+    jobs: jobReducer,
+    alljobs: alljobReducer
 });

@@ -3,16 +3,16 @@ const passport = require("passport");
 
 module.exports = (app, connection) => {
     app.post("/api/company/register", (req, res) => {
-        console.log("eror");
-        console.log(req.body);
+        //console.log("eror");
+        //console.log(req.body);
         const bindvars = {
-            UserName: req.body.UserName,
-            Pass: req.body.Pass,
-            CompanyName: req.body.CompanyName,
-            Email: req.body.Email,
-            BussinessStream: req.body.BussinessStream,
-            Description: req.body.Description,
-            WebsiteUrl: req.body.WebsiteUrl
+            UserName: req.body.userName,
+            Pass: req.body.pass,
+            CompanyName: req.body.companyName,
+            Email: req.body.email,
+            BussinessStream: req.body.bussinessStream,
+            Description: req.body.description,
+            WebsiteUrl: req.body.weburl
         };
 
         connection.execute(

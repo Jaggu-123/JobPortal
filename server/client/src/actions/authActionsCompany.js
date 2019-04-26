@@ -5,12 +5,19 @@ import jwt_decode from "jwt-decode";
 export const registerCompany = (userData, history) => dispatch => {
     axios
         .post("/api/company/register", userData)
+        .then(res => history.push("/"))
+        .catch(err => console.log(err));
+};
+
+export const registerPost = (userData, history) => {
+    axios
+        .post("/api/jobs/register", userData)
         .then(res => console.log(res))
         .catch(err => console.log(err));
 };
 
 // Login - Get User Token
-export const loginCompany = userData => dispatch => {
+export const loginCompany = (userData, history) => dispatch => {
     console.log(userData);
     axios
         .post("/api/company/login", userData)
@@ -26,6 +33,7 @@ export const loginCompany = userData => dispatch => {
             // Set current user
             dispatch(setCurrentCompany(decoded));
             console.log(decoded);
+            history.push("/");
         })
         .catch(err => console.log(err));
 };
@@ -38,6 +46,13 @@ export const setCurrentCompany = decoded => {
     };
 };
 
+export const unsetCurrentCompany = () => {
+    return {
+        type: "UNSET_CURRENT_USER",
+        payload: []
+    };
+};
+
 // Log user out
 export const logoutCompany = () => dispatch => {
     // Remove token from localStorage
@@ -45,5 +60,5 @@ export const logoutCompany = () => dispatch => {
     // Remove auth header for future requests
     setAuthToken(false);
     // Set current user to {} which will set isAuthenticated to false
-    dispatch(setCurrentCompany({}));
+    dispatch(unsetCurrentCompany({}));
 };

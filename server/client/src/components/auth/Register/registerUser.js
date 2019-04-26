@@ -1,19 +1,29 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { registerUser } from "../../../actions/authActions";
+import { withRouter } from "react-router-dom";
 
 const style = {
     backgroundImage: `url("images/landing.jpg")`
 };
 
-class registerUser extends Component {
+class RegisterUser extends Component {
     constructor() {
         super();
         this.state = {
-            name: "",
+            userName: "",
+            firstName: "",
+            lastName: "",
             email: "",
-            password: "",
-            password2: "",
-            errors: {}
+            pass: "",
+            gender: "",
+            contactNo: "",
+            streetAddress: "",
+            city: "",
+            state: "",
+            country: "",
+            zip: ""
         };
 
         this.onChange = this.onChange.bind(this);
@@ -28,13 +38,21 @@ class registerUser extends Component {
         e.preventDefault();
 
         const newUser = {
-            name: this.state.name,
+            userName: this.state.userName,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
             email: this.state.email,
-            password: this.state.password,
-            password2: this.state.password2
+            pass: this.state.pass,
+            gender: this.state.gender,
+            contactNo: this.state.contactNo,
+            streetAddress: this.state.streetAddress,
+            city: this.state.city,
+            state: this.state.State,
+            country: this.state.country,
+            zip: this.state.zip
         };
 
-        console.log(newUser);
+        this.props.registerUser(newUser, this.props.history);
     }
 
     render() {
@@ -49,7 +67,7 @@ class registerUser extends Component {
                         <div className="row">
                             <div className="col-md-7">
                                 <h1 className="text-white font-weight-bold">
-                                    Register as company
+                                    Register as User
                                 </h1>
                                 <div className="custom-breadcrumbs">
                                     <Link to="/">Home</Link>
@@ -57,7 +75,7 @@ class registerUser extends Component {
                                     <Link to="job">Job</Link>
                                     <span className="mx-2 slash">/</span>
                                     <span className="text-white">
-                                        <strong>Register as company</strong>
+                                        <strong>Register as user</strong>
                                     </span>
                                 </div>
                             </div>
@@ -67,167 +85,237 @@ class registerUser extends Component {
 
                 <section className="site-section">
                     <div className="container">
-                        <div className="row align-items-center mb-5">
-                            <div className="col-lg-8 mb-4 mb-lg-0">
-                                <div className="d-flex align-items-center">
-                                    <div>
-                                        <h2>Register as company</h2>
+                        <form onSubmit={this.onSubmit}>
+                            <div className="row align-items-center mb-5">
+                                <div className="col-lg-8 mb-4 mb-lg-0">
+                                    <div className="d-flex align-items-center">
+                                        <div>
+                                            <h2>Register as User</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-lg-4">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <input
+                                                type="submit"
+                                                value="Save User"
+                                                className="btn btn-block btn-primary btn-md"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4">
-                                <div className="row">
-                                    <div className="col-6">
-                                        <a
-                                            href="#"
-                                            className="btn btn-block btn-light btn-md"
-                                        >
-                                            <span className="icon-open_in_new mr-2" />
-                                            Preview
-                                        </a>
+                            <div className="row mb-5">
+                                <div className="col-lg-12">
+                                    <div
+                                        className="p-4 p-md-5 border rounded"
+                                        onSubmit={this.onSubmit}
+                                    >
+                                        <h3 class="text-black my-5 border-bottom pb-2">
+                                            User Details
+                                        </h3>
+                                        <div class="form-group">
+                                            <label for="company-name">
+                                                User Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-name"
+                                                name="userName"
+                                                placeholder="e.g. New York"
+                                                value={this.state.userName}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company-tagline">
+                                                First Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-tagline"
+                                                placeholder="e.g. New York"
+                                                name="firstName"
+                                                value={this.state.firstName}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company-tagline">
+                                                Last Name
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-tagline"
+                                                placeholder="e.g. New York"
+                                                name="lastName"
+                                                value={this.state.lastName}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company-tagline">
+                                                Email
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-tagline"
+                                                placeholder="e.g. New York"
+                                                name="email"
+                                                value={this.state.email}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company-tagline">
+                                                Password
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-tagline"
+                                                placeholder="e.g. New York"
+                                                name="pass"
+                                                value={this.state.pass}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company-tagline">
+                                                Gender
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-tagline"
+                                                placeholder="e.g. New York"
+                                                name="gender"
+                                                value={this.state.gender}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company-tagline">
+                                                Contact Number
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-tagline"
+                                                placeholder="e.g. New York"
+                                                name="contactNo"
+                                                value={this.state.contactNo}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company-website">
+                                                Street Address
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-website"
+                                                placeholder=""
+                                                name="streetAddress"
+                                                value={this.state.streetAddress}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company-website-fb">
+                                                City
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-website-fb"
+                                                name="city"
+                                                value={this.state.city}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company-website-tw">
+                                                State
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-website-tw"
+                                                name="State"
+                                                value={this.state.State}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="company-website-tw">
+                                                Country
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-website-tw"
+                                                name="country"
+                                                value={this.state.country}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="company-website-tw">
+                                                zip
+                                            </label>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="company-website-tw"
+                                                name="zip"
+                                                value={this.state.zip}
+                                                onChange={this.onChange}
+                                            />
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company-website-tw d-block">
+                                                Upload Logo
+                                            </label>
+                                            <br />
+                                            <label class="btn btn-primary btn-md btn-file">
+                                                Browse File
+                                                <input type="file" hidden />
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div className="col-6">
-                                        <a
-                                            href="#"
-                                            className="btn btn-block btn-primary btn-md"
-                                        >
-                                            Save Job
-                                        </a>
+                                    <div className="row align-items-center mt-5">
+                                        <div className="col-lg-4 ml-auto">
+                                            <div className="row">
+                                                <div className="col-12">
+                                                    <input
+                                                        type="submit"
+                                                        value="Save User"
+                                                        className="btn btn-block btn-primary btn-md"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="row mb-5">
-                            <div className="col-lg-12">
-                                <form
-                                    className="p-4 p-md-5 border rounded"
-                                    method="post"
-                                >
-                                    <h3 class="text-black my-5 border-bottom pb-2">
-                                        Company Details
-                                    </h3>
-                                    <div class="form-group">
-                                        <label for="company-name">
-                                            Company Name
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="company-name"
-                                            placeholder="e.g. New York"
-                                        />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="company-tagline">
-                                            Tagline (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="company-tagline"
-                                            placeholder="e.g. New York"
-                                        />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="job-description">
-                                            Company Description (Optional)
-                                        </label>
-                                        <textarea
-                                            name=""
-                                            id=""
-                                            cols="30"
-                                            rows="10"
-                                            class="form-control"
-                                        >
-                                            Description
-                                        </textarea>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="company-website">
-                                            Website (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="company-website"
-                                            placeholder="https://"
-                                        />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="company-website-fb">
-                                            Facebook Username (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="company-website-fb"
-                                            placeholder="companyname"
-                                        />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="company-website-tw">
-                                            Twitter Username (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="company-website-tw"
-                                            placeholder="@companyname"
-                                        />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="company-website-tw">
-                                            Linkedin Username (Optional)
-                                        </label>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            id="company-website-tw"
-                                            placeholder="companyname"
-                                        />
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="company-website-tw d-block">
-                                            Upload Logo
-                                        </label>
-                                        <br />
-                                        <label class="btn btn-primary btn-md btn-file">
-                                            Browse File
-                                            <input type="file" hidden />
-                                        </label>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div className="row align-items-center mb-5">
-                            <div className="col-lg-4 ml-auto">
-                                <div className="row">
-                                    <div className="col-6">
-                                        <a
-                                            href="#"
-                                            className="btn btn-block btn-light btn-md"
-                                        >
-                                            <span className="icon-open_in_new mr-2" />
-                                            Preview
-                                        </a>
-                                    </div>
-                                    <div className="col-6">
-                                        <a
-                                            href="#"
-                                            className="btn btn-block btn-primary btn-md"
-                                        >
-                                            Save Job
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </section>
             </div>
@@ -235,4 +323,7 @@ class registerUser extends Component {
     }
 }
 
-export default registerUser;
+export default connect(
+    null,
+    { registerUser }
+)(withRouter(RegisterUser));
