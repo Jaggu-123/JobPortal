@@ -47,6 +47,8 @@ create table user_account(id int primary key not null,
     lastName varchar(30), 
     email varchar(50) not null,
     pass varchar(30) not null,
+    photo varchar(200),
+    resumee varchar(200),
     gender varchar(10) not null,
     contactNo number(15) not null,
     addressID int references addresses(id)
@@ -102,7 +104,8 @@ create table company_account(id int primary key not null,
     email varchar(50),
     bussinessStream varchar(40),
     description varchar(100),
-    websiteUrl varchar(30)
+    websiteUrl varchar(30),
+    logo varchar(200)
 );
 
 job post
@@ -133,10 +136,10 @@ create table job_event(id int primary key not null,
     addressID int references addresses(id)
 );
 
-create table job_skill(id int not null references skills(id),
-    job_id int not null references job_event(id),
-    primary key(id, job_id) 
-);
+-- create table job_skill(id int not null references skills(id),
+--     job_id int not null references job_event(id),
+--     primary key(id, job_id) 
+-- );
 
 create table job_activity(id int not null references job_event(id),
     user_account_id int not null references user_account(id),

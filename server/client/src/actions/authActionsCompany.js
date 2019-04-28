@@ -1,12 +1,26 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
+import { setCurrentUser, unsetCurrentUser } from "./authActions";
 
-export const registerCompany = (userData, history) => dispatch => {
-    axios
-        .post("/api/company/register", userData)
-        .then(res => history.push("/"))
-        .catch(err => console.log(err));
+export const registerCompany = (
+    userData,
+    formData,
+    config,
+    history
+) => dispatch => {
+    axios.post("/api/users/upload", formData, config).then(res => {
+        userData.logo = res.data.url;
+
+        axios
+            .post("/api/company/register", userData)
+            .then(rest => history.push("/"))
+            .catch(err => console.log(err));
+    });
+    // axios
+    //     .post("/api/company/register", userData)
+    //     .then(res => history.push("/"))
+    //     .catch(err => console.log(err));
 };
 
 export const registerPost = (userData, history) => {
@@ -31,7 +45,7 @@ export const loginCompany = (userData, history) => dispatch => {
             // Decode token to get user data
             const decoded = jwt_decode(token);
             // Set current user
-            dispatch(setCurrentCompany(decoded));
+            dispatch(setCurrentUser({}));
             console.log(decoded);
             history.push("/");
         })
@@ -39,19 +53,25 @@ export const loginCompany = (userData, history) => dispatch => {
 };
 
 // Set logged in user
-export const setCurrentCompany = decoded => {
-    return {
-        type: "SET_CURRENT_USER",
-        payload: decoded
-    };
-};
+// export const setCurrentCompany = () => {
+//     const token = localStorage.getItem("jwtToken");
+//     if (token == null) {
+//         unsetCurrentCompany({});
+//     } else {
+//         const decoded = jwt_decode(token);
+//         dispatch({
+//             type: "SET_CURRENT_USER",
+//             payload: decoded
+//         });
+//     }
+// };
 
-export const unsetCurrentCompany = () => {
-    return {
-        type: "UNSET_CURRENT_USER",
-        payload: []
-    };
-};
+// export const unsetCurrentCompany = () => {
+//     return {
+//         type: "UNSET_CURRENT_USER",
+//         payload: []
+//     };
+// };
 
 // Log user out
 export const logoutCompany = () => dispatch => {
@@ -60,5 +80,5 @@ export const logoutCompany = () => dispatch => {
     // Remove auth header for future requests
     setAuthToken(false);
     // Set current user to {} which will set isAuthenticated to false
-    dispatch(unsetCurrentCompany({}));
+    dispatch(unsetCurrentUser({}));
 };

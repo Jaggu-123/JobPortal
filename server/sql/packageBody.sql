@@ -24,7 +24,9 @@ create or replace package body Project is
     City addresses.city%type,
     State addresses.state%type,
     Country addresses.country%type,
-    Zip addresses.zip%type)
+    Zip addresses.zip%type,
+    Photo user_account.photo%type,
+    Resumee user_account.resumee%type)
     as
         num int := 0;
         -- fir int := 0;
@@ -34,8 +36,8 @@ create or replace package body Project is
 
         select max(id) into num from addresses;
 
-        insert into user_account(id, userName, firstName, lastName, email, pass, gender, contactNo, addressID)
-            values (seqUser.nextval, UserName, FirstName, LastName, Email, Pass, Gender, ContactNo, num);
+        insert into user_account(id, userName, firstName, lastName, email, pass,photo,resumee, gender, contactNo, addressID)
+            values (seqUser.nextval, UserName, FirstName, LastName, Email, Pass,Photo,Resumee, Gender, ContactNo, num);
 
         -- select max(id) into sec from user_account;
 
@@ -79,12 +81,13 @@ create or replace package body Project is
     Email company_account.email%type,
     BussinessStream company_account.bussinessStream%type,
     Description company_account.description%type,
-    WebsiteUrl company_account.websiteUrl%type)
+    WebsiteUrl company_account.websiteUrl%type,
+    Logo company_account.logo%type)
     as
         num number := 0;
     begin
-        insert into company_account(id, userName, pass, companyName, email, bussinessStream, description, websiteUrl)
-            values (seqCompany.nextval, UserName, Pass, CompanyName, Email, BussinessStream, Description, WebsiteUrl);
+        insert into company_account(id, userName, pass, companyName, email, bussinessStream, description, websiteUrl,Logo)
+            values (seqCompany.nextval, UserName, Pass, CompanyName, Email, BussinessStream, Description, WebsiteUrl,logo);
     end insertCompany;
 end Project;
 /

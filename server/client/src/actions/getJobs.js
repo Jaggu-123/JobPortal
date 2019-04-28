@@ -8,7 +8,17 @@ export const getAllJobs = () => dispatch => {
 };
 
 export const searchJobID = searchJob => dispatch => {
-    console.log(searchJob);
+    axios
+        .get("/api/job/detail", { params: searchJob })
+        .then(res => dispatch({ type: "GET_JOBS", payload: res.data }));
+};
+
+export const applyJob = (applyjob, history) => {
+    console.log("apply");
+    // axios
+    //     .post("api/job/apply", applyjob)
+    //     .then(res => history.push("/searchpage"))
+    //     .then(err => console.log(err));
 };
 
 export const searchJob = searchJob => dispatch => {

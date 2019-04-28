@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { logoutUser } from "../../actions/authActions";
+import { logoutUser, setCurrentUser } from "../../actions/authActions";
 
 class Navbar extends Component {
+    componentDidMount() {
+        this.props.setCurrentUser();
+    }
     onLogout(e) {
         this.props.logoutUser();
     }
@@ -110,5 +113,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { logoutUser }
+    { logoutUser, setCurrentUser }
 )(Navbar);

@@ -12,7 +12,7 @@ const style1 = {
     width: 100
 };
 
-class SingleJob extends Component {
+class SingleUser extends Component {
     constructor() {
         super();
         this.onhandle = this.onhandle.bind(this);
@@ -263,4 +263,4 @@ const mapStateToProps = state => ({
 export default connect(
     mapStateToProps,
     { searchJobID, applyJob }
-)(SingleJob);
+)(SingleUser);

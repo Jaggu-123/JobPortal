@@ -13,7 +13,9 @@ import RegisterPost from "./components/auth/Register/registerPost";
 import RegisterCompany from "./components/auth/Register/registerCompany";
 import RegisterUser from "./components/auth/Register/registerUser";
 import RegisterEdu from "./components/auth/Register/registerEducation";
+import RegisterExp from "./components/auth/Register/registerExp";
 import SingleJob from "./components/singleJob";
+import SingleUser from "./components/singleUser";
 import Jobs from "./components/companyTab";
 import IndexPage from "./components/indexpage";
 
@@ -26,6 +28,11 @@ class App extends Component {
                         <Navbar />
                         <Route exact path="/" component={Landing} />
                         <Route exact path="/job/:jobid" component={SingleJob} />
+                        <Route
+                            exact
+                            path="/user/:userid"
+                            component={SingleUser}
+                        />
                         <Route exact path="/" component={Jobs} />
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/searchpage" component={IndexPage} />
@@ -33,6 +40,16 @@ class App extends Component {
                             exact
                             path="/registerPost"
                             component={RegisterPost}
+                        />
+                        <Route
+                            exact
+                            path="/registerExperience"
+                            component={RegisterExp}
+                        />
+                        <Route
+                            exact
+                            path="/registerEducation"
+                            component={RegisterEdu}
                         />
                         <Route
                             exact

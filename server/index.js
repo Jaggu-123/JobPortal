@@ -18,29 +18,26 @@ async function run() {
         console.log("connect");
         //"begin Project.insertUser(:u1, :u2, :u3, :u4, :u5, :u6 ,:u7,:p1,:p2,:p3,:p4,:p5); end;"
         //const sqlQuery = `Project.insertAddress(:1, :2, :3, :4, :5);`;insert into addresses(id, streetAddress,city,state,country,zip) values (2, 'main', 'bokaro','jahrk','india','ytu');
-        var bindvars = {
-            ini: "Manish",
-            oui: {
-                dir: oracledb.BIND_OUT,
-                type: oracledb.STRING,
-                maxSize: 32767
-            },
-            otyui: {
-                dir: oracledb.BIND_OUT,
-                type: oracledb.STRING,
-                maxSize: 32767
-            }
-        };
+        // var bindvars = {
+        //     ini: "Manish",
+        //     oui: {
+        //         dir: oracledb.BIND_OUT,
+        //         type: oracledb.STRING,
+        //         maxSize: 32767
+        //     },
+        //     otyui: {
+        //         dir: oracledb.BIND_OUT,
+        //         type: oracledb.STRING,
+        //         maxSize: 32767
+        //     }
+        // };
 
-        conn.execute("select * from company_account", {}, function(
-            err,
-            result
-        ) {
+        conn.execute("select * from user_account", {}, function(err, result) {
             if (err) {
                 error = err;
                 return;
             }
-            console.log(bindvars);
+            //console.log(bindvars);
             console.log("kuvh");
             console.log(result);
             user = result.rowsAffected;
@@ -56,12 +53,12 @@ async function run() {
             // });
         });
 
-        const result = await conn.execute(
-            "begin AddressHere(:ini, :oui,:otyui); end;",
-            bindvars
-        );
+        // const result = await conn.execute(
+        //     "begin AddressHere(:ini, :oui,:otyui); end;",
+        //     bindvars
+        // );
 
-        console.log(result.outBinds);
+        // console.log(result.outBinds);
         //console.log(bindvars);
 
         // connection.execute(

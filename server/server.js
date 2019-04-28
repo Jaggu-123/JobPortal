@@ -2,6 +2,9 @@ const express = require("express");
 const oracledb = require("oracledb");
 const bodyParser = require("body-parser");
 const password = require("passport");
+const cloudinary = require("cloudinary");
+require("./handlers/cloudinary");
+const upload = require("./handlers/multers");
 
 oracledb.autoCommit = true;
 const app = express();
@@ -21,7 +24,7 @@ oracledb
     .then(connection => {
         console.log("connect");
         require("./config/passport")(password, connection);
-        require("./routes/userRoutes")(app, connection);
+        require("./routes/userRoutes")(app, connection, upload, cloudinary);
         require("./routes/companyRoutes")(app, connection);
         require("./routes/jobRoutes")(app, connection);
     })

@@ -1,17 +1,58 @@
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
-module.exports = (app, connection) => {
+module.exports = (app, connection, upload, cloudinary) => {
     console.log("connection");
 
     app.get("/", (req, res) => {
         res.send("Hello");
     });
 
+    app.post("/api/users/education", (req, res) => {
+        console.log(req.body);
+        res.json({ hi: "there" });
+    });
+
+    app.post("/api/users/experience", (req, res) => {
+        console.log(req.body);
+        res.json({ hi: "there" });
+    });
+
+    app.post(
+        "/api/users/upload",
+        upload.single("myImage"),
+        async (req, res) => {
+            console.log(req.file.path);
+            cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+                if (err) {
+                    console.log("error");
+                    console.log(err);
+                } else {
+                    console.log(result);
+                    res.send(result);
+                }
+            });
+        }
+    );
+
+    app.post(
+        "/api/users/uploadDoc",
+        upload.single("myDocs"),
+        async (req, res) => {
+            console.log(req.file.path);
+            cloudinary.v2.uploader.upload(req.file.path, function(err, result) {
+                if (err) {
+                    console.log("error");
+                    console.log(err);
+                } else {
+                    console.log(result);
+                    res.send(result);
+                }
+            });
+        }
+    );
+
     app.post("/api/users/register", (req, res) => {
-        //console.log("request");
-        //console.log(req);
-        //console.log(req.body);
         const bindvars = {
             UserName: req.body.userName,
             FirstName: req.body.firstName,
@@ -24,23 +65,24 @@ module.exports = (app, connection) => {
             City: req.body.city,
             State: req.body.state,
             Country: req.body.country,
-            Zip: req.body.zip
+            Zip: req.body.zip,
+            Photo: req.body.url,
+            Resumee: req.body.resume
         };
 
-        //res.send(bindvars);
+        console.log(bindvars);
 
         connection.execute(
-            "begin Project.insertUser(:UserName,:FirstName,:LastName,:Email,:Pass,:Gender,:ContactNo,:StreetAddress,:City,:State,:Country,:Zip); end;",
+            "begin Project.insertUser(:UserName,:FirstName,:LastName,:Email,:Pass,:Gender,:ContactNo,:StreetAddress,:City,:State,:Country,:Zip,:Photo,:Resumee); end;",
             bindvars,
             function(err, result) {
                 if (err) {
-                    error = err;
+                    console.log(err);
                     return;
                 }
                 console.log("kuvh");
                 console.log(result);
                 user = result.rowsAffected;
-                error = null;
 
                 res.json(result.rowsAffected);
 
@@ -73,6 +115,7 @@ module.exports = (app, connection) => {
                     console.log("username not matched");
                     console.log(err);
                 } else {
+                    console.log(result.rows);
                     const password = result.rows[0][5];
 
                     if (password != value.Pass) {

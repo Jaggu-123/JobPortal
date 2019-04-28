@@ -12,11 +12,12 @@ module.exports = (app, connection) => {
             Email: req.body.email,
             BussinessStream: req.body.bussinessStream,
             Description: req.body.description,
-            WebsiteUrl: req.body.weburl
+            WebsiteUrl: req.body.weburl,
+            Logo: req.body.logo
         };
 
         connection.execute(
-            "begin Project.insertCompany(:UserName,:Pass,:CompanyName,:Email,:BussinessStream,:Description,:WebsiteUrl); end;",
+            "begin Project.insertCompany(:UserName,:Pass,:CompanyName,:Email,:BussinessStream,:Description,:WebsiteUrl,:Logo); end;",
             bindvars,
             function(err, result) {
                 if (err) {

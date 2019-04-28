@@ -21,21 +21,47 @@ class RegisterUser extends Component {
             contactNo: "",
             streetAddress: "",
             city: "",
-            state: "",
+            State: "",
             country: "",
-            zip: ""
+            zip: "",
+            file: null,
+            resume: null
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeFile = this.onChangeFile.bind(this);
+        this.onChangeFiles = this.onChangeFiles.bind(this);
     }
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    onChangeFile(e) {
+        this.setState({ file: e.target.files[0] });
+    }
+    onChangeFiles(e) {
+        this.setState({ resume: e.target.files[0] });
+    }
+
     onSubmit(e) {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append("myImage", this.state.file);
+        const config = {
+            headers: {
+                "content-type": "multipart/form-data"
+            }
+        };
+
+        const formData1 = new FormData();
+        formData1.append("myDocs", this.state.resume);
+        // const config = {
+        //     headers: {
+        //         "content-type": "multipart/form-data"
+        //     }
+        // };
 
         const newUser = {
             userName: this.state.userName,
@@ -52,7 +78,13 @@ class RegisterUser extends Component {
             zip: this.state.zip
         };
 
-        this.props.registerUser(newUser, this.props.history);
+        this.props.registerUser(
+            newUser,
+            formData,
+            formData1,
+            config,
+            this.props.history
+        );
     }
 
     render() {
@@ -124,7 +156,7 @@ class RegisterUser extends Component {
                                                 class="form-control"
                                                 id="company-name"
                                                 name="userName"
-                                                placeholder="e.g. New York"
+                                                placeholder=""
                                                 value={this.state.userName}
                                                 onChange={this.onChange}
                                             />
@@ -138,7 +170,7 @@ class RegisterUser extends Component {
                                                 type="text"
                                                 class="form-control"
                                                 id="company-tagline"
-                                                placeholder="e.g. New York"
+                                                placeholder=""
                                                 name="firstName"
                                                 value={this.state.firstName}
                                                 onChange={this.onChange}
@@ -153,7 +185,7 @@ class RegisterUser extends Component {
                                                 type="text"
                                                 class="form-control"
                                                 id="company-tagline"
-                                                placeholder="e.g. New York"
+                                                placeholder=""
                                                 name="lastName"
                                                 value={this.state.lastName}
                                                 onChange={this.onChange}
@@ -168,7 +200,7 @@ class RegisterUser extends Component {
                                                 type="text"
                                                 class="form-control"
                                                 id="company-tagline"
-                                                placeholder="e.g. New York"
+                                                placeholder=""
                                                 name="email"
                                                 value={this.state.email}
                                                 onChange={this.onChange}
@@ -180,10 +212,10 @@ class RegisterUser extends Component {
                                                 Password
                                             </label>
                                             <input
-                                                type="text"
+                                                type="password"
                                                 class="form-control"
                                                 id="company-tagline"
-                                                placeholder="e.g. New York"
+                                                placeholder=""
                                                 name="pass"
                                                 value={this.state.pass}
                                                 onChange={this.onChange}
@@ -198,7 +230,7 @@ class RegisterUser extends Component {
                                                 type="text"
                                                 class="form-control"
                                                 id="company-tagline"
-                                                placeholder="e.g. New York"
+                                                placeholder=""
                                                 name="gender"
                                                 value={this.state.gender}
                                                 onChange={this.onChange}
@@ -213,7 +245,7 @@ class RegisterUser extends Component {
                                                 type="text"
                                                 class="form-control"
                                                 id="company-tagline"
-                                                placeholder="e.g. New York"
+                                                placeholder=""
                                                 name="contactNo"
                                                 value={this.state.contactNo}
                                                 onChange={this.onChange}
@@ -291,12 +323,32 @@ class RegisterUser extends Component {
 
                                         <div class="form-group">
                                             <label for="company-website-tw d-block">
-                                                Upload Logo
+                                                Upload Image
                                             </label>
                                             <br />
                                             <label class="btn btn-primary btn-md btn-file">
                                                 Browse File
-                                                <input type="file" hidden />
+                                                <input
+                                                    type="file"
+                                                    name="myImage"
+                                                    onChange={this.onChangeFile}
+                                                />
+                                            </label>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="company-website-tw d-block">
+                                                Upload Resume
+                                            </label>
+                                            <br />
+                                            <label class="btn btn-primary btn-md btn-file">
+                                                Browse File
+                                                <input
+                                                    type="file"
+                                                    name="myDocs"
+                                                    onChange={
+                                                        this.onChangeFiles
+                                                    }
+                                                />
                                             </label>
                                         </div>
                                     </div>

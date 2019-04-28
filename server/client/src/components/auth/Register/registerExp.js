@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { registerEdu } from "../../../actions/authActions";
+import { registerExp } from "../../../actions/authActions";
 import { withRouter } from "react-router-dom";
 
 const style = {
     backgroundImage: `url("images/landing.jpg")`
 };
 
-class RegisterEducation extends Component {
+class RegisterExperience extends Component {
     constructor() {
         super();
         this.state = {
-            degreeName: "",
-            instituteName: "",
-            cgpa: ""
+            companyName: "",
+            position: "",
+            description: ""
         };
 
         this.onChange = this.onChange.bind(this);
@@ -29,15 +29,15 @@ class RegisterEducation extends Component {
         e.preventDefault();
 
         const newUser = {
-            degreeName: this.state.degreeName,
-            instituteName: this.state.instituteName,
-            cgpa: this.state.cgpa
+            companyName: this.state.companyName,
+            position: this.state.position,
+            description: this.state.description
         };
-        this.props.registerEdu(newUser, this.props.history);
+
+        this.props.registerExp(newUser, this.props.history);
     }
 
     render() {
-        console.log(this.props);
         return (
             <div>
                 <section
@@ -49,7 +49,7 @@ class RegisterEducation extends Component {
                         <div className="row">
                             <div className="col-md-7">
                                 <h1 className="text-white font-weight-bold">
-                                    Fill Education
+                                    Fill Experience
                                 </h1>
                                 <div className="custom-breadcrumbs">
                                     <Link to="/">Home</Link>
@@ -58,7 +58,7 @@ class RegisterEducation extends Component {
 
                                     <span className="mx-2 slash">/</span>
                                     <span className="text-white">
-                                        <strong>Fill Education</strong>
+                                        <strong>Fill Experience</strong>
                                     </span>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@ class RegisterEducation extends Component {
                                 <div className="col-lg-8 mb-4 mb-lg-0">
                                     <div className="d-flex align-items-center">
                                         <div>
-                                            <h2>Fill Education</h2>
+                                            <h2>Fill Experience</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@ class RegisterEducation extends Component {
                                         <div className="col-12">
                                             <input
                                                 type="submit"
-                                                value="Add Education"
+                                                value="Add Experience"
                                                 className="btn btn-block btn-primary btn-md"
                                             />
                                         </div>
@@ -96,18 +96,18 @@ class RegisterEducation extends Component {
                                         method="post"
                                     >
                                         <h3 class="text-black my-5 border-bottom pb-2">
-                                            Educational Details
+                                            Experience Details
                                         </h3>
 
                                         <div class="form-group">
                                             <label for="company-name">
-                                                Degree Name
+                                                Company Name
                                             </label>
                                             <input
                                                 type="text"
                                                 class="form-control"
                                                 id="company-name"
-                                                name="degreeName"
+                                                name="companyName"
                                                 placeholder=""
                                                 value={this.state.name}
                                                 onChange={this.onChange}
@@ -116,13 +116,13 @@ class RegisterEducation extends Component {
 
                                         <div class="form-group">
                                             <label for="company-tagline">
-                                                Institute Name
+                                                Position
                                             </label>
                                             <input
                                                 type="text"
                                                 class="form-control"
                                                 id="company-tagline"
-                                                name="instituteName"
+                                                name="position"
                                                 placeholder=""
                                                 value={this.state.name}
                                                 onChange={this.onChange}
@@ -131,13 +131,13 @@ class RegisterEducation extends Component {
 
                                         <div class="form-group">
                                             <label for="company-name">
-                                                CGPA
+                                                Description
                                             </label>
                                             <input
                                                 type="text"
                                                 class="form-control"
                                                 id="company-name"
-                                                name="cgpa"
+                                                name="description"
                                                 placeholder=""
                                                 value={this.state.name}
                                                 onChange={this.onChange}
@@ -152,7 +152,7 @@ class RegisterEducation extends Component {
                                         <div className="col-12">
                                             <input
                                                 type="submit"
-                                                value="Add Education"
+                                                value="Add Experience"
                                                 className="btn btn-block btn-primary btn-md"
                                             />
                                         </div>
@@ -169,5 +169,5 @@ class RegisterEducation extends Component {
 
 export default connect(
     null,
-    { registerEdu }
-)(withRouter(RegisterEducation));
+    { registerExp }
+)(withRouter(RegisterExperience));

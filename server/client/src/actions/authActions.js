@@ -2,10 +2,36 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
-export const registerUser = (userData, history) => dispatch => {
+export const registerUser = (
+    userData,
+    formData,
+    formData1,
+    config,
+    history
+) => dispatch => {
+    axios.post("/api/users/upload", formData, config).then(res => {
+        userData.url = res.data.url;
+        axios.post("/api/users/uploadDoc", formData1, config).then(rese => {
+            userData.resume = rese.data.url;
+            axios
+                .post("/api/users/register", userData)
+                .then(rest => history.push("/registerEducation"))
+                .catch(err => console.log(err));
+        });
+    });
+};
+
+export const registerEdu = (userData, history) => dispatch => {
     console.log(userData);
     axios
-        .post("/api/users/register", userData)
+        .post("/api/users/education", userData)
+        .then(res => history.push("/registerExperience"))
+        .catch(err => console.log(err));
+};
+
+export const registerExp = (userData, history) => dispatch => {
+    axios
+        .post("/api/users/experience", userData)
         .then(res => history.push("/"))
         .catch(err => console.log(err));
 };
@@ -25,7 +51,7 @@ export const loginUser = (userData, history) => dispatch => {
             // Decode token to get user data
             const decoded = jwt_decode(token);
             // Set current user
-            dispatch(setCurrentUser(decoded));
+            dispatch(setCurrentUser({}));
             console.log(decoded);
             history.push("/");
         })
@@ -33,11 +59,17 @@ export const loginUser = (userData, history) => dispatch => {
 };
 
 // Set logged in user
-export const setCurrentUser = decoded => {
-    return {
-        type: "SET_CURRENT_USER",
-        payload: decoded
-    };
+export const setCurrentUser = () => dispatch => {
+    const token = localStorage.getItem("jwtToken");
+    if (token == null) {
+        unsetCurrentUser({});
+    } else {
+        const decoded = jwt_decode(token);
+        dispatch({
+            type: "SET_CURRENT_USER",
+            payload: decoded
+        });
+    }
 };
 
 export const unsetCurrentUser = () => {

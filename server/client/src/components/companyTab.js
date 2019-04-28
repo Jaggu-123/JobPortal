@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { getAllJobs } from "../actions/getJobs";
 
 class CompanyTab extends Component {
@@ -10,14 +11,15 @@ class CompanyTab extends Component {
         this.props.getAllJobs();
     }
     renderList() {
+        console.log(this.props.jobs);
         if (this.props.jobs) {
             return this.props.jobs.map(job => {
                 return (
                     <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-                        <a href="job-single.html" />
+                        <Link to={`/job/${job.id}`} />
                         <div class="job-listing-logo">
                             <img
-                                src="images/job_logo_1.jpg"
+                                src={`${job.logo}`}
                                 alt="Free Website Template by Free-Template.co"
                                 class="img-fluid"
                             />

@@ -18,19 +18,32 @@ class RegisterCompany extends Component {
             pass: "",
             bussinessStream: "",
             description: "",
-            weburl: ""
+            weburl: "",
+            file: null
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeFile = this.onChangeFile.bind(this);
     }
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    onChangeFile(e) {
+        this.setState({ file: e.target.files[0] });
+    }
+
     onSubmit(e) {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append("myImage", this.state.file);
+        const config = {
+            headers: {
+                "content-type": "multipart/form-data"
+            }
+        };
 
         const newUser = {
             companyName: this.state.companyName,
@@ -42,7 +55,12 @@ class RegisterCompany extends Component {
             weburl: this.state.weburl
         };
 
-        this.props.registerCompany(newUser, this.props.history);
+        this.props.registerCompany(
+            newUser,
+            formData,
+            config,
+            this.props.history
+        );
     }
 
     render() {
@@ -214,7 +232,11 @@ class RegisterCompany extends Component {
                                             <br />
                                             <label class="btn btn-primary btn-md btn-file">
                                                 Browse File
-                                                <input type="file" hidden />
+                                                <input
+                                                    type="file"
+                                                    name="myImage"
+                                                    onChange={this.onChangeFile}
+                                                />
                                             </label>
                                         </div>
                                     </div>

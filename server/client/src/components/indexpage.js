@@ -72,6 +72,7 @@ class IndexPage extends Component {
             return this.props.jobs.map(job => {
                 return (
                     <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+                        <Link to={`/job/${job.id}`} />
                         <div class="job-listing-logo">
                             <img
                                 src="images/job_logo_1.jpg"
@@ -81,7 +82,6 @@ class IndexPage extends Component {
                         </div>
 
                         <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
-                            <Link to={`/job/${job.id}`} />
                             <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
                                 <h2>{job.companyName}</h2>
                                 <strong>{job.job_post}</strong>

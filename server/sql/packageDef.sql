@@ -18,7 +18,9 @@ create or replace package Project is
     City addresses.city%type,
     State addresses.state%type,
     Country addresses.country%type,
-    Zip addresses.zip%type);
+    Zip addresses.zip%type,
+    Photo user_account.photo%type,
+    Resumee user_account.resumee%type);
 
     -- -- --isko array ke liye karna hai
     -- procedure insertLanguage
@@ -48,7 +50,8 @@ create or replace package Project is
     Email company_account.email%type,
     BussinessStream company_account.bussinessStream%type,
     Description company_account.description%type,
-    WebsiteUrl company_account.websiteUrl%type);
+    WebsiteUrl company_account.websiteUrl%type,
+    Logo company_account.logo%type);
 end Project;
 /
 
