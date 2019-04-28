@@ -9,11 +9,13 @@ import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
 import Footer from "./components/layout/Footer";
 import Login from "./components/auth/Login/login";
+import LoginAdmin from "./components/auth/Login/loginAdmin";
 import RegisterPost from "./components/auth/Register/registerPost";
 import RegisterCompany from "./components/auth/Register/registerCompany";
 import RegisterUser from "./components/auth/Register/registerUser";
 import RegisterEdu from "./components/auth/Register/registerEducation";
 import RegisterExp from "./components/auth/Register/registerExp";
+import RegisterAdmin from "./components/auth/Register/registerAdmin";
 import SingleJob from "./components/singleJob";
 import SingleUser from "./components/singleUser";
 import Jobs from "./components/companyTab";
@@ -35,11 +37,21 @@ class App extends Component {
                         />
                         <Route exact path="/" component={Jobs} />
                         <Route exact path="/login" component={Login} />
+                        <Route
+                            exact
+                            path="/login/admin"
+                            component={LoginAdmin}
+                        />
                         <Route exact path="/searchpage" component={IndexPage} />
                         <Route
                             exact
                             path="/registerPost"
                             component={RegisterPost}
+                        />
+                        <Route
+                            exact
+                            path="/registerAdmin"
+                            component={RegisterAdmin}
                         />
                         <Route
                             exact

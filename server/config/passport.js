@@ -40,7 +40,7 @@ module.exports = (passport, connection) => {
                         }
                     }
                 );
-            } else {
+            } else if (jwt_payload.type == 2) {
                 connection.execute(
                     "select * from company_account where id = :id",
                     bindvars,
@@ -61,6 +61,28 @@ module.exports = (passport, connection) => {
                             };
 
                             return done(null, company);
+                        }
+                    }
+                );
+            } else {
+                connection.execute(
+                    "select * from own where id = :id",
+                    bindvars,
+                    function(err, result) {
+                        if (err) {
+                            console.log("err");
+
+                            return done(null, false);
+                        } else {
+                            const admin = {
+                                id: result.rows[0][0],
+                                userName: result.rows[0][1],
+                                pass: result.rows[0][4],
+                                fullName: result.rows[0][2],
+                                email: result.rows[0][3]
+                            };
+
+                            return done(null, admin);
                         }
                     }
                 );

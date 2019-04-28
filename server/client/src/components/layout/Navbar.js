@@ -54,6 +54,12 @@ class Navbar extends Component {
                         <span className="mr-2 icon-lock_outline" />
                         Log In
                     </Link>
+                    <Link
+                        to="/login/admin"
+                        className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"
+                    >
+                        Admin
+                    </Link>
                 </div>
             );
         }

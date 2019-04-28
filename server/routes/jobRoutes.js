@@ -1,4 +1,58 @@
 module.exports = (app, connection) => {
+    app.get("/api/jobsmultiple/jobactivitydata", (req, res) => {
+        const bindvars = {
+            id: req.body.id
+        };
+        connection.execute(
+            "select * from job_activity where id= :id ",
+            bindvars,
+            function(err, result) {
+                var rowsProcessed = 0;
+                if (err) {
+                    console.log(err);
+                } else {
+                    rowsProcessed = results.rows.length;
+                    var ans = [];
+                    for (var i = 0; i < rowsProcessed; i++) {
+                        var row = result.rows[i];
+
+                        var bindpost = {
+                            id: row[1]
+                        };
+
+                        var bindcompany = {
+                            id: row[1]
+                        };
+
+                        connection.execute(
+                            "select * from user_account where id = :id",
+                            bindpost,
+                            function(err, result) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    var row1 = result.rows[0][1];
+                                    var component = {
+                                        userName: row1[1],
+                                        firstName: row1[2],
+                                        lastName: row1[3],
+                                        email: row1[4],
+                                        pass: row1[5],
+                                        gender: row1[6],
+                                        contactNo: row1[7],
+                                        addressID: row1[8]
+                                    };
+                                    ans.push(component);
+                                }
+                            }
+                        );
+                    }
+                    res.send(ans);
+                }
+            }
+        );
+    });
+
     app.post("/api/jobs/register", (req, res) => {
         console.log(req.body);
         res.json("success");

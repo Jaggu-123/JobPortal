@@ -153,7 +153,7 @@ start with 1
 increment by 1
 cache 10;
 
-create table administrator(id int not null primary key,
+create table own(id int not null primary key,
     userName varchar(30),
     fullName varchar(40),
     email varchar(40),

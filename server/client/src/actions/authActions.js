@@ -2,6 +2,14 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
+export const registerAdmin = (userData, history) => dispatch => {
+    // console.log(userData);
+    axios
+        .post("/api/admin/register", userData)
+        .then(res => history.push("/"))
+        .catch(err => console.log(err));
+};
+
 export const registerUser = (
     userData,
     formData,
@@ -81,6 +89,36 @@ export const unsetCurrentUser = () => {
 
 // Log user out
 export const logoutUser = () => dispatch => {
+    // Remove token from localStorage
+    localStorage.removeItem("jwtToken");
+    // Remove auth header for future requests
+    setAuthToken(false);
+    // Set current user to {} which will set isAuthenticated to false
+    dispatch(unsetCurrentUser({}));
+};
+
+export const loginAdmin = (userData, history) => dispatch => {
+    console.log(userData);
+    axios
+        .post("/api/admin/login", userData)
+        .then(res => {
+            // Save to localStorage
+            const { token } = res.data;
+            // Set token to ls
+            localStorage.setItem("jwtToken", token);
+            // Set token to Auth header
+            setAuthToken(token);
+            // Decode token to get user data
+            const decoded = jwt_decode(token);
+            // Set current user
+            dispatch(setCurrentUser({}));
+            console.log(decoded);
+            history.push("/");
+        })
+        .catch(err => console.log(err));
+};
+
+export const logoutAdmin = () => dispatch => {
     // Remove token from localStorage
     localStorage.removeItem("jwtToken");
     // Remove auth header for future requests

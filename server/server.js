@@ -27,6 +27,7 @@ oracledb
         require("./routes/userRoutes")(app, connection, upload, cloudinary);
         require("./routes/companyRoutes")(app, connection);
         require("./routes/jobRoutes")(app, connection);
+        require("./routes/adminRoutes")(app, connection);
     })
     .catch(err => {
         console.log(err);

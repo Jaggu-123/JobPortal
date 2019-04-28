@@ -9,13 +9,49 @@ module.exports = (app, connection, upload, cloudinary) => {
     });
 
     app.post("/api/users/education", (req, res) => {
-        console.log(req.body);
-        res.json({ hi: "there" });
+        const bindvars = {
+            User_account_id: req.body.user_account_id,
+            DegreeName: req.body.degreeName,
+            InstituteName: req.body.instituteName,
+            Cgpa: req.body.cgpa
+        };
+
+        console.log(bindvars);
+
+        connection.execute(
+            "begin Project.insertEducation(:User_account_id,:DegreeName,:InstituteName,:Cgpa); end;",
+            bindvars,
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    return;
+                } else {
+                    console.log(result.rowsAffected);
+                }
+            }
+        );
     });
 
     app.post("/api/users/experience", (req, res) => {
-        console.log(req.body);
-        res.json({ hi: "there" });
+        const bindvars = {
+            User_account_id: req.body.user_account_id,
+            CompanyName: req.body.companyName,
+            Position: req.body.position,
+            Description: req.body.description
+        };
+
+        connection.execute(
+            "begin Project.insertExperience(:User_account_id,:CompanyName,:Position,:Description); end;",
+            bindvars,
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                    return;
+                } else {
+                    console.log(result.rowsAffected);
+                }
+            }
+        );
     });
 
     app.post(

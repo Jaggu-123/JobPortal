@@ -32,7 +32,7 @@ async function run() {
         //     }
         // };
 
-        conn.execute("select * from user_account", {}, function(err, result) {
+        conn.execute("select * from own", {}, function(err, result) {
             if (err) {
                 error = err;
                 return;
