@@ -118,14 +118,6 @@ class LoginAdmin extends Component {
                                                 className="btn px-4 btn-primary text-white"
                                             />
                                         </div>
-                                        <div className="col-md-6">
-                                            <Link
-                                                to="/registerAdmin"
-                                                className="btn px-4 btn-primary text-white"
-                                            >
-                                                RegisterAsAdmin
-                                            </Link>
-                                        </div>
                                     </div>
                                 </form>
                             </div>

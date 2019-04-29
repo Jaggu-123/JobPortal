@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { searchJobID, applyJob } from "../actions/getJobs";
+import { searchJobID, applyJob, allApplyUsers } from "../actions/getJobs";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
@@ -16,6 +16,7 @@ class SingleJob extends Component {
     constructor() {
         super();
         this.onhandle = this.onhandle.bind(this);
+        this.onhandleUser = this.onhandleUser.bind(this);
     }
     componentDidMount() {
         const bindval = {
@@ -25,10 +26,16 @@ class SingleJob extends Component {
     }
     onhandle(e) {
         const bind = {
-            id: this.props.job.id
-            // user_account_id: this.props.auth.id
+            id: this.props.job.id,
+            user_account_id: this.props.auth.user.id
         };
-        console.log(bind);
+        this.props.applyJob(bind);
+    }
+    onhandleUser(e) {
+        const bind = {
+            id: this.props.job.id
+        };
+        this.props.allApplyUsers(bind, this.props.history);
     }
     render() {
         const job = this.props.job;
@@ -66,11 +73,19 @@ class SingleJob extends Component {
                             <div className="col-lg-8 mb-4 mb-lg-0">
                                 <div className="d-flex align-items-center">
                                     <div className="border p-2 d-inline-block mr-3 rounded">
-                                        <img
-                                            src={`${job.logo}`}
-                                            style={style1}
-                                            alt="Free Website Template By Free-Template.co"
-                                        />
+                                        {job.logo == null ? (
+                                            <img
+                                                src="/images/download.png"
+                                                style={style1}
+                                                alt="Free Website Template By Free-Template.co"
+                                            />
+                                        ) : (
+                                            <img
+                                                src={`${job.logo}`}
+                                                style={style1}
+                                                alt="Free Website Template By Free-Template.co"
+                                            />
+                                        )}
                                     </div>
                                     <div>
                                         <h2>{job.job_post}</h2>
@@ -95,36 +110,33 @@ class SingleJob extends Component {
                             </div>
                             <div className="col-lg-4">
                                 <div className="row">
-                                    <div className="col-6">
-                                        <a
-                                            href="#"
-                                            className="btn btn-block btn-light btn-md"
-                                        >
-                                            <span className="icon-heart-o mr-2 text-danger" />
-                                            Save Job
-                                        </a>
-                                    </div>
-                                    <div className="col-6">
-                                        <button
-                                            onClick={() => this.onhandle()}
-                                            className="btn btn-block btn-primary btn-md"
-                                        >
-                                            Apply Now
-                                        </button>
-                                    </div>
+                                    {this.props.auth.user.type == 1 ? (
+                                        <div className="col-12">
+                                            <button
+                                                onClick={() => this.onhandle()}
+                                                className="btn btn-block btn-primary btn-md"
+                                            >
+                                                Apply Now
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="col-12">
+                                            <button
+                                                onClick={() =>
+                                                    this.onhandleUser()
+                                                }
+                                                className="btn btn-block btn-light btn-md"
+                                            >
+                                                See Response
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-lg-8">
                                 <div className="mb-5">
-                                    {/* <figure className="mb-5">
-                                        <img
-                                            src="images/job_single_img_1.jpg"
-                                            alt="Free Website Template by Free-Template.co"
-                                            className="img-fluid rounded"
-                                        />
-                                    </figure> */}
                                     <h3 className="h5 d-flex align-items-center mb-4 text-primary">
                                         <span className="icon-align-left mr-3" />
                                         Job Description
@@ -139,23 +151,27 @@ class SingleJob extends Component {
                                 </div>
 
                                 <div className="row mb-5">
-                                    <div className="col-6">
-                                        <a
-                                            href="#"
-                                            className="btn btn-block btn-light btn-md"
-                                        >
-                                            <span className="icon-heart-o mr-2 text-danger" />
-                                            Save Job
-                                        </a>
-                                    </div>
-                                    <div className="col-6">
-                                        <button
-                                            onClick={() => this.onhandle()}
-                                            className="btn btn-block btn-primary btn-md"
-                                        >
-                                            Apply Now
-                                        </button>
-                                    </div>
+                                    {this.props.auth.user.type == 1 ? (
+                                        <div className="col-12">
+                                            <button
+                                                onClick={() => this.onhandle()}
+                                                className="btn btn-block btn-primary btn-md"
+                                            >
+                                                Apply Now
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="col-12">
+                                            <button
+                                                onClick={() =>
+                                                    this.onhandleUser()
+                                                }
+                                                className="btn btn-block btn-light btn-md"
+                                            >
+                                                See Response
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                             <div className="col-lg-4">
@@ -262,5 +278,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { searchJobID, applyJob }
-)(SingleJob);
+    { searchJobID, applyJob, allApplyUsers }
+)(withRouter(SingleJob));

@@ -23,10 +23,14 @@ export const registerCompany = (
     //     .catch(err => console.log(err));
 };
 
-export const registerPost = (userData, history) => {
+export const getCompanyEvent = (companyData, history) => dispatch => {
+    // console.log(companyData);
     axios
-        .post("/api/jobs/register", userData)
-        .then(res => console.log(res))
+        .get("/api/company/getjob", { params: companyData })
+        .then(res => {
+            dispatch({ type: "GET_EVENT", payload: res.data });
+            // history.push("/allpostjobs");
+        })
         .catch(err => console.log(err));
 };
 

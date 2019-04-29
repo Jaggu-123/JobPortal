@@ -108,7 +108,6 @@ create table company_account(id int primary key not null,
     logo varchar(200)
 );
 
-job post
 create sequence seqJobType
 minvalue 1
 start with 1

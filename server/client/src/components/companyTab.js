@@ -11,7 +11,7 @@ class CompanyTab extends Component {
         this.props.getAllJobs();
     }
     renderList() {
-        console.log(this.props.jobs);
+        // console.log(this.props.jobs);
         if (this.props.jobs) {
             return this.props.jobs.map(job => {
                 return (

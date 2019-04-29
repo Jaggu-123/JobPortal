@@ -20,6 +20,8 @@ import SingleJob from "./components/singleJob";
 import SingleUser from "./components/singleUser";
 import Jobs from "./components/companyTab";
 import IndexPage from "./components/indexpage";
+import Applyjob from "./components/applyJob";
+import AllEvent from "./components/allEvent";
 
 class App extends Component {
     render() {
@@ -35,8 +37,14 @@ class App extends Component {
                             path="/user/:userid"
                             component={SingleUser}
                         />
+                        <Route exact path="/allpostjobs" component={AllEvent} />
                         <Route exact path="/" component={Jobs} />
                         <Route exact path="/login" component={Login} />
+                        <Route
+                            exact
+                            path="/allapplyUser"
+                            component={Applyjob}
+                        />
                         <Route
                             exact
                             path="/login/admin"

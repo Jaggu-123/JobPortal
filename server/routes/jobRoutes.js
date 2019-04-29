@@ -1,7 +1,7 @@
 module.exports = (app, connection) => {
     app.get("/api/jobsmultiple/jobactivitydata", (req, res) => {
         const bindvars = {
-            id: req.body.id
+            id: req.query.id
         };
         connection.execute(
             "select * from job_activity where id= :id ",
@@ -11,7 +11,7 @@ module.exports = (app, connection) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    rowsProcessed = results.rows.length;
+                    rowsProcessed = result.rows.length;
                     var ans = [];
                     for (var i = 0; i < rowsProcessed; i++) {
                         var row = result.rows[i];
@@ -31,31 +31,98 @@ module.exports = (app, connection) => {
                                 if (err) {
                                     console.log(err);
                                 } else {
-                                    var row1 = result.rows[0][1];
-                                    var component = {
-                                        userName: row1[1],
-                                        firstName: row1[2],
-                                        lastName: row1[3],
-                                        email: row1[4],
-                                        pass: row1[5],
-                                        gender: row1[6],
-                                        contactNo: row1[7],
-                                        addressID: row1[8]
+                                    var row1 = result.rows[0];
+                                    // var component = {
+                                    //     userName:row1[1],
+                                    //     firstName:row1[2],
+                                    //     lastName:row1[3],
+                                    //     email :row1[4],
+                                    //     pass :row1[5],
+                                    //     gender :row1[6],
+                                    //     contactNo :row1[7],
+                                    //     addressID:row1[8]
+
+                                    // };
+                                    var bindcompany = {
+                                        id: row1[10]
                                     };
-                                    ans.push(component);
+                                    // ans.push(component);
+                                    connection.execute(
+                                        "select * from addresses where id = :id",
+                                        bindcompany,
+                                        function(err, result) {
+                                            if (err) {
+                                                console.log(err);
+                                            } else {
+                                                var row2 = result.rows[0];
+                                                row1.push(row2[1]);
+                                                row1.push(row2[2]);
+                                                row1.push(row2[3]);
+                                                row1.push(row2[4]);
+                                                row1.push(row2[5]);
+
+                                                var component = {
+                                                    id: row1[0],
+                                                    userName: row1[1],
+                                                    firstName: row1[2],
+                                                    lastName: row1[3],
+                                                    email: row1[4],
+                                                    pass: row1[5],
+                                                    gender: row1[8],
+                                                    contactNo: row1[9],
+                                                    streetAddress: row1[11],
+                                                    city: row1[12],
+                                                    photo: row1[6],
+                                                    state: row1[13],
+                                                    country: row1[14],
+                                                    zip: row1[15]
+                                                };
+                                                //array.push(component);
+                                                ans.push(component);
+                                                // res.send(array);
+                                            }
+                                        }
+                                    );
                                 }
                             }
                         );
                     }
-                    res.send(ans);
+                    setTimeout(() => {
+                        res.send(ans);
+                    }, 3000);
                 }
             }
         );
     });
 
     app.post("/api/jobs/register", (req, res) => {
-        console.log(req.body);
-        res.json("success");
+        var bindvars = {
+            CompanyID: req.body.companyid,
+            JobPostName: req.body.jobPostName,
+            IsActive: req.body.active,
+            JobDescription: req.body.jobDescription,
+            Salary: req.body.salary,
+            Skill: req.body.skill,
+            JobType: req.body.jobType,
+            StreetAddress: req.body.streetAddress,
+            City: req.body.city,
+            State: req.body.state,
+            Country: req.body.country,
+            Zip: req.body.zip
+        };
+
+        connection.execute(
+            "begin Project.insertJobEvent(:CompanyID,:JobPostName,:IsActive,:JobDescription,:Salary,:Skill,:JobType,:StreetAddress,:City,:State,:Country,:Zip); end;",
+            bindvars,
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    // console.log(result.rowsAffected);
+                    res.json({ hi: "hello" });
+                }
+            }
+        );
     });
 
     app.post("/api/job/apply", (req, res) => {
@@ -258,11 +325,14 @@ module.exports = (app, connection) => {
                 console.log(err);
             } else {
                 rowsProcessed = result.rows.length;
+                //console.log(result);
+                // const ans = array(rowsProcessed, result);
+                // console.log(ans);
                 // console.log(rowsProcessed);
                 var ans = [];
                 for (var i = 0; i < rowsProcessed; i++) {
                     var row = result.rows[i];
-                    //console.log(row);
+                    console.log(row);
                     var bindpost = {
                         id: row[2]
                     };
@@ -307,7 +377,8 @@ module.exports = (app, connection) => {
                                             //console.log(row);
                                             //array.push(component);
                                             ans.push(component);
-                                            res.send(ans);
+                                            //console.log("Push");
+                                            // res.send(ans);
                                         }
                                     }
                                 );
@@ -315,7 +386,10 @@ module.exports = (app, connection) => {
                         }
                     );
                 }
-                // res.send(ans);
+                setTimeout(() => {
+                    //console.log(ans);
+                    res.send(ans);
+                }, 3000);
             }
         });
     });
@@ -376,7 +450,7 @@ module.exports = (app, connection) => {
                                                 };
                                                 //array.push(component);
                                                 ans.push(component);
-                                                res.send(ans);
+                                                //res.send(ans);
                                             }
                                         }
                                     );
@@ -384,7 +458,10 @@ module.exports = (app, connection) => {
                             }
                         );
                     }
-                    // res.send(ans);
+                    setTimeout(() => {
+                        console.log(ans);
+                        res.send(ans);
+                    }, 3000);
                 }
             }
         );
@@ -446,7 +523,7 @@ module.exports = (app, connection) => {
                                                 };
                                                 //array.push(component);
                                                 ans.push(component);
-                                                res.send(ans);
+                                                // res.send(ans);
                                             }
                                         }
                                     );
@@ -454,7 +531,10 @@ module.exports = (app, connection) => {
                             }
                         );
                     }
-                    // res.send(ans);
+                    setTimeout(() => {
+                        console.log(ans);
+                        res.send(ans);
+                    }, 3000);
                 }
             }
         );

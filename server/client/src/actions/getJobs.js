@@ -13,7 +13,26 @@ export const searchJobID = searchJob => dispatch => {
         .then(res => dispatch({ type: "GET_JOBS", payload: res.data }));
 };
 
-export const applyJob = (applyjob, history) => {
+export const registerPost = (userData, history) => dispatch => {
+    // console.log(userData);
+    axios
+        .post("/api/jobs/register", userData)
+        .then(res => history.push("/"))
+        .catch(err => console.log(err));
+};
+
+export const allApplyUsers = (userData, history) => dispatch => {
+    // console.log(userData);
+    axios
+        .get("/api/jobsmultiple/jobactivitydata", { params: userData })
+        .then(res => {
+            dispatch({ type: "APPLY_USERS", payload: res.data });
+            history.push("/allapplyUser");
+        })
+        .catch(err => console.log(err));
+};
+
+export const applyJob = (applyjob, history) => dispatch => {
     console.log("apply");
     // axios
     //     .post("api/job/apply", applyjob)

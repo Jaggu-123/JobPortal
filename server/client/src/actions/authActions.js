@@ -10,6 +10,13 @@ export const registerAdmin = (userData, history) => dispatch => {
         .catch(err => console.log(err));
 };
 
+export const searchUserID = searchUser => dispatch => {
+    console.log(searchUser);
+    axios
+        .get("/api/user/detail", { params: searchUser })
+        .then(res => dispatch({ type: "GET_USERS", payload: res.data }));
+};
+
 export const registerUser = (
     userData,
     formData,

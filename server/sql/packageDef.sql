@@ -52,6 +52,23 @@ create or replace package Project is
     Description company_account.description%type,
     WebsiteUrl company_account.websiteUrl%type,
     Logo company_account.logo%type);
+
+    procedure insertJobPost 
+    (Job_post_name job_post.jobPostName%type);
+
+    procedure insertJobEvent
+    (Company_id job_event.company_id%type,
+	Job_post_name job_post.jobPostName%type,
+	IsActive job_event.isActive%type,
+	JobDescription job_event.jobDescription%type,
+	Salary job_event.salary%type,
+	Skill job_event.skill%type,
+	Job_type job_event.job_type%type,
+	StreetAddress addresses.streetAddress%type,
+	City addresses.city%type,
+	State addresses.state%type,
+	Country addresses.country%type,
+	Zip addresses.zip%type);
 end Project;
 /
 

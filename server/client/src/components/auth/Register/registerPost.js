@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import { registerPost } from "../../../actions/authActionsCompany";
+import { registerPost } from "../../../actions/getJobs";
 import { connect } from "react-redux";
+import axios from "axios";
 
 const style = {
     backgroundImage: `url("images/landing.jpg")`
@@ -38,7 +39,6 @@ class RegisterPost extends Component {
 
         const newUser = {
             description: this.state.description,
-            active: this.state.active,
             salary: this.state.salary,
             skill: this.state.skill,
             jobPost: this.state.jobPost,
@@ -50,7 +50,19 @@ class RegisterPost extends Component {
             zip: this.state.zip
         };
 
-        console.log(newUser);
+        if (this.state.active == "Yes") {
+            newUser.active = 1;
+        } else {
+            newUser.active = 0;
+        }
+
+        newUser.companyid = this.props.auth.user.id;
+
+        axios
+            .post("/api/jobs/register", newUser)
+            .then(res => this.props.history.push("/"))
+            .catch(err => console.log(err));
+        //this.props.registerPost(newUser, this.props.history);
     }
 
     render() {
@@ -291,7 +303,11 @@ class RegisterPost extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
 export default connect(
-    null,
+    mapStateToProps,
     { registerPost }
 )(withRouter(RegisterPost));

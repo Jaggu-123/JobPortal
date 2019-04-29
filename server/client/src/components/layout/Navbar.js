@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logoutUser, setCurrentUser } from "../../actions/authActions";
+import { getCompanyEvent } from "../../actions/authActionsCompany";
+import { withRouter } from "react-router-dom";
 
 class Navbar extends Component {
     componentDidMount() {
@@ -15,13 +17,40 @@ class Navbar extends Component {
             if (this.props.auth.user.type == 1) {
                 return (
                     <div className="ml-auto">
-                        <button
+                        <Link
+                            to={`/user/${this.props.auth.user.id}`}
+                            className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"
+                        >
+                            Profile
+                        </Link>
+                        <Link
+                            to="/"
                             onClick={this.onLogout.bind(this)}
                             className="btn btn-primary border-width-2 d-none d-lg-inline-block"
                         >
                             <span className="mr-2 icon-lock_outline" />
                             LogOut
-                        </button>
+                        </Link>
+                    </div>
+                );
+            } else if (this.props.auth.user.type == 2) {
+                return (
+                    <div className="ml-auto">
+                        <Link
+                            to="/registerPost"
+                            className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"
+                        >
+                            <span className="mr-2 icon-add" />
+                            Post a Job
+                        </Link>
+                        <Link
+                            to="/"
+                            onClick={this.onLogout.bind(this)}
+                            className="btn btn-primary border-width-2 d-none d-lg-inline-block"
+                        >
+                            <span className="mr-2 icon-lock_outline" />
+                            LogOut
+                        </Link>
                     </div>
                 );
             } else {
@@ -34,13 +63,21 @@ class Navbar extends Component {
                             <span className="mr-2 icon-add" />
                             Post a Job
                         </Link>
-                        <button
+                        <Link
+                            to="/registerAdmin"
+                            className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"
+                        >
+                            <span className="mr-2 icon-add" />
+                            Make A Admin
+                        </Link>
+                        <Link
+                            to="/"
                             onClick={this.onLogout.bind(this)}
                             className="btn btn-primary border-width-2 d-none d-lg-inline-block"
                         >
                             <span className="mr-2 icon-lock_outline" />
                             LogOut
-                        </button>
+                        </Link>
                     </div>
                 );
             }
@@ -77,6 +114,75 @@ class Navbar extends Component {
                         <li>
                             <Link to="/searchpage" className="nav-link">
                                 Job Search
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            );
+        } else if (
+            this.props.auth.isAuthenticated &&
+            this.props.auth.user.type == 2
+        ) {
+            return (
+                <div>
+                    <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+                        <li>
+                            <Link to="/" className="nav-link active">
+                                Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/allpostjobs">
+                                <span
+                                    onClick={() =>
+                                        this.props.getCompanyEvent(
+                                            {
+                                                id: this.props.auth.user.id
+                                            },
+                                            this.props.history
+                                        )
+                                    }
+                                    className="nav-link"
+                                >
+                                    All Events
+                                </span>
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            );
+        } else if (
+            this.props.auth.isAuthenticated &&
+            this.props.auth.user.type == 3
+        ) {
+            return (
+                <div>
+                    <ul className="site-menu js-clone-nav d-none d-xl-block ml-0 pl-0">
+                        <li>
+                            <Link to="/" className="nav-link active">
+                                Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/searchpage" className="nav-link">
+                                Job Search
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/allpostjobs">
+                                <span
+                                    onClick={() =>
+                                        this.props.getCompanyEvent(
+                                            {
+                                                id: this.props.auth.user.id
+                                            },
+                                            this.props.history
+                                        )
+                                    }
+                                    className="nav-link"
+                                >
+                                    All Events
+                                </span>
                             </Link>
                         </li>
                     </ul>
@@ -119,5 +225,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { logoutUser, setCurrentUser }
-)(Navbar);
+    { logoutUser, setCurrentUser, getCompanyEvent }
+)(withRouter(Navbar));

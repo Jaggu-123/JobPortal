@@ -89,6 +89,44 @@ create or replace package body Project is
         insert into company_account(id, userName, pass, companyName, email, bussinessStream, description, websiteUrl,Logo)
             values (seqCompany.nextval, UserName, Pass, CompanyName, Email, BussinessStream, Description, WebsiteUrl,logo);
     end insertCompany;
+
+    procedure insertJobPost 
+    (Job_post_name job_post.jobPostName%type) 
+    as
+        num number := 0;
+	begin
+			insert into job_post(id, jobPostName) values (seqJobType.nextval, Job_post_name);
+	end insertJobPost;
+
+    procedure insertJobEvent
+    (Company_id job_event.company_id%type,
+	Job_post_name job_post.jobPostName%type,
+	IsActive job_event.isActive%type,
+	JobDescription job_event.jobDescription%type,
+	Salary job_event.salary%type,
+	Skill job_event.skill%type,
+	Job_type job_event.job_type%type,
+	StreetAddress addresses.streetAddress%type,
+	City addresses.city%type,
+	State addresses.state%type,
+	Country addresses.country%type,
+	Zip addresses.zip%type)
+    as
+	
+	Job_post_id  job_event.job_post_id%type := 0;
+	Address_id job_event.addressID %type := 0;
+	
+	begin
+	
+		Project.insertAddress(StreetAddress, City, State, Country, Zip);
+		select max(id) into Address_id from addresses;
+
+		Project.insertJobPost(Job_post_name);
+		select max(id) into Job_post_id from job_post;
+
+		insert into job_event values(seqJobEvent.nextval, Company_id , Job_post_id , IsActive , JobDescription, Salary , Skill , Job_type , Address_id);
+	
+	end insertJobEvent;
 end Project;
 /
 
