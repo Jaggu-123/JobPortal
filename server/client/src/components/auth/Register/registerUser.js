@@ -5,7 +5,7 @@ import { registerUser } from "../../../actions/authActions";
 import { withRouter } from "react-router-dom";
 
 const style = {
-    backgroundImage: `url("images/landing.jpg")`
+    backgroundImage: `url("images/xyz.jpg")`
 };
 
 class RegisterUser extends Component {

@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 
 const style = {
-    backgroundImage: `url("images/landing.jpg")`
+    backgroundImage: `url("images/xyz.jpg")`
 };
 
 class RegisterPost extends Component {
@@ -50,6 +50,8 @@ class RegisterPost extends Component {
             zip: this.state.zip
         };
 
+        console.log(newUser);
+
         if (this.state.active == "Yes") {
             newUser.active = 1;
         } else {
@@ -62,7 +64,7 @@ class RegisterPost extends Component {
             .post("/api/jobs/register", newUser)
             .then(res => this.props.history.push("/"))
             .catch(err => console.log(err));
-        //this.props.registerPost(newUser, this.props.history);
+        this.props.registerPost(newUser, this.props.history);
     }
 
     render() {
@@ -109,7 +111,7 @@ class RegisterPost extends Component {
                                         <div className="col-12">
                                             <input
                                                 type="submit"
-                                                value="Save User"
+                                                value="Save Job"
                                                 className="btn btn-block btn-primary btn-md"
                                             />
                                         </div>
@@ -288,7 +290,7 @@ class RegisterPost extends Component {
                                         <div className="col-12">
                                             <input
                                                 type="submit"
-                                                value="Save User"
+                                                value="Save Job"
                                                 className="btn btn-block btn-primary btn-md"
                                             />
                                         </div>

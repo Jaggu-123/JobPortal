@@ -1,88 +1,69 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+const style = {
+    width: 250
+};
+
+const style1 = {
+    margin: 5
+};
 
 const Footer = () => {
     return (
-        <footer className="site-footer">
-            <a href="#top" className="smoothscroll scroll-top">
-                <span className="icon-keyboard_arrow_up" />
-            </a>
-
-            <div className="container">
-                <div className="row mb-5">
-                    <div className="col-6 col-md-3 mb-4 mb-md-0">
-                        <h3>Search Trending</h3>
-                        <ul className="list-unstyled">
-                            <li>
-                                <a href="#">Web Design</a>
-                            </li>
-                            <li>
-                                <a href="#">Graphic Design</a>
-                            </li>
-                            <li>
-                                <a href="#">Web Developers</a>
-                            </li>
-                            <li>
-                                <a href="#">Python</a>
-                            </li>
-                            <li>
-                                <a href="#">HTML5</a>
-                            </li>
-                            <li>
-                                <a href="#">CSS3</a>
-                            </li>
-                        </ul>
+        <div>
+            <footer class="site-footer">
+                <a href="#top" class="smoothscroll scroll-top">
+                    <span class="icon-keyboard_arrow_up" />
+                </a>
+                <div class="container">
+                    <div className="text-center">
+                        <img src="/images/log.jpg" style={style} />
+                        <br />
+                        <br />
+                        <div class="">
+                            <h3>Contact Us</h3>
+                            <div class="footer-social">
+                                <Link to="/" style={style1}>
+                                    <span class="icon-facebook" />
+                                </Link>
+                                <Link to="/" style={style1}>
+                                    <span class="icon-twitter" />
+                                </Link>
+                                <Link to="/" style={style1}>
+                                    <span class="icon-instagram" />
+                                </Link>
+                                <Link to="/" style={style1}>
+                                    <span class="icon-linkedin" />
+                                </Link>
+                            </div>
+                        </div>
                     </div>
-                    <div className="col-6 col-md-3 mb-4 mb-md-0">
-                        <h3>Company</h3>
-                        <ul className="list-unstyled">
-                            <li>
-                                <a href="#">About Us</a>
-                            </li>
-                            <li>
-                                <a href="#">Career</a>
-                            </li>
-                            <li>
-                                <a href="#">Blog</a>
-                            </li>
-                            <li>
-                                <a href="#">Resources</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="col-6 col-md-3 mb-4 mb-md-0">
-                        <h3>Support</h3>
-                        <ul className="list-unstyled">
-                            <li>
-                                <a href="#">Support</a>
-                            </li>
-                            <li>
-                                <a href="#">Privacy</a>
-                            </li>
-                            <li>
-                                <a href="#">Terms of Service</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div className="col-6 col-md-3 mb-4 mb-md-0">
-                        <h3>Contact Us</h3>
-                        <div className="footer-social">
-                            <a href="#">
-                                <span className="icon-facebook" />
-                            </a>
-                            <a href="#">
-                                <span className="icon-twitter" />
-                            </a>
-                            <a href="#">
-                                <span className="icon-instagram" />
-                            </a>
-                            <a href="#">
-                                <span className="icon-linkedin" />
-                            </a>
+                    <br />
+                    <br />
+                    <div class="row text-center">
+                        <div class="col-12">
+                            <p class="copyright">
+                                <small class="block">
+                                    &copy;{" "}
+                                    <script>
+                                        document.write(new
+                                        Date().getFullYear());
+                                    </script>{" "}
+                                    <strong class="text-white">JobAdda</strong>{" "}
+                                    <br /> Designed &amp; Developed by
+                                    <br />
+                                    Rishabh Shekher&emsp;&emsp;Ishan
+                                    Arora&emsp;&emsp;Vikrant Singh
+                                    <br />
+                                    Manish Jagnani&emsp;&emsp;Srikar Anand
+                                </small>
+                            </p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </footer>
+            </footer>
+        </div>
     );
 };
 

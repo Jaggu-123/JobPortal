@@ -32,18 +32,21 @@ async function run() {
         //     }
         // };
 
-        conn.execute("select * from own", {}, function(err, result) {
+        conn.execute("select count(userName) from own", {}, function(
+            err,
+            result
+        ) {
             if (err) {
                 error = err;
                 return;
             }
             //console.log(bindvars);
             console.log("kuvh");
-            console.log(result);
+            //console.log(result);
             user = result.rowsAffected;
             error = null;
 
-            console.log(result.rows);
+            console.log(result.rows[0][0]);
 
             // connection.close(function(err) {
             //     if (err) {

@@ -168,6 +168,99 @@ module.exports = (app, connection) => {
         );
     });
 
+    app.get("/api/company/getjobName", (req, res) => {
+        const bind = {
+            id: req.query.options
+        };
+        console.log(bind);
+        const data = {
+            company: null,
+            event: null
+        };
+        connection.execute(
+            "select * from company_account where companyName = :id",
+            bind,
+            function(err, result) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    data.company = result.rows[0];
+                    console.log(data.company);
+                    const bindvars = {
+                        id: result.rows[0][0]
+                    };
+                    console.log(bindvars);
+                    connection.execute(
+                        "select * from job_event where company_id = :id",
+                        bindvars,
+                        function(err, result) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                var array = [];
+
+                                result.rows.map(arr => {
+                                    // var component = {
+                                    //     id: result.rows[i][0],
+                                    //     company_id: result.rows[i][1],
+                                    //     job_post_id: result.rows[i][2],
+                                    //     isActive: result.rows[i][3],
+                                    //     jobDescription: result.rows[i][4],
+                                    //     salary: result.rows[i][5],
+                                    //     skill: result.rows[i][6],
+                                    //     job_type: result.rows[i][7]
+                                    // };
+                                    //console.log(component);
+                                    var bindvars = {
+                                        id: arr[2]
+                                    };
+                                    console.log(bindvars);
+                                    setTimeout(() => {
+                                        connection.execute(
+                                            "select * from job_post where id = :id",
+                                            bindvars,
+                                            function(err, results) {
+                                                if (err) {
+                                                    console.log(err);
+                                                } else {
+                                                    //console.log(arr);
+                                                    var component = {
+                                                        id: arr[0],
+                                                        company_id: arr[1],
+                                                        job_post_id: arr[2],
+                                                        isActive: arr[3],
+                                                        jobDescription: arr[4],
+                                                        salary: arr[5],
+                                                        skill: arr[6],
+                                                        job_type: arr[7]
+                                                    };
+                                                    component.jobPostName =
+                                                        results.rows[0][1];
+                                                    array.push(component);
+                                                    // console.log(component);
+                                                    // console.log(
+                                                    //     results.rows[0][1]
+                                                    // );
+                                                    console.log(component);
+                                                }
+                                            }
+                                        );
+                                    }, 1000);
+                                });
+
+                                setTimeout(() => {
+                                    data.event = array;
+                                    console.log(array);
+                                    res.send(array);
+                                }, 10000);
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    });
+
     app.get(
         "/api/company/current",
         passport.authenticate("jwt", { session: false }),

@@ -5,6 +5,10 @@ import { logoutUser, setCurrentUser } from "../../actions/authActions";
 import { getCompanyEvent } from "../../actions/authActionsCompany";
 import { withRouter } from "react-router-dom";
 
+const style = {
+    margin: 5
+};
+
 class Navbar extends Component {
     componentDidMount() {
         this.props.setCurrentUser();
@@ -18,12 +22,14 @@ class Navbar extends Component {
                 return (
                     <div className="ml-auto">
                         <Link
+                            style={style}
                             to={`/user/${this.props.auth.user.id}`}
                             className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"
                         >
                             Profile
                         </Link>
                         <Link
+                            style={style}
                             to="/"
                             onClick={this.onLogout.bind(this)}
                             className="btn btn-primary border-width-2 d-none d-lg-inline-block"
@@ -37,6 +43,7 @@ class Navbar extends Component {
                 return (
                     <div className="ml-auto">
                         <Link
+                            style={style}
                             to="/registerPost"
                             className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"
                         >
@@ -44,6 +51,7 @@ class Navbar extends Component {
                             Post a Job
                         </Link>
                         <Link
+                            style={style}
                             to="/"
                             onClick={this.onLogout.bind(this)}
                             className="btn btn-primary border-width-2 d-none d-lg-inline-block"
@@ -57,13 +65,7 @@ class Navbar extends Component {
                 return (
                     <div className="ml-auto">
                         <Link
-                            to="/registerPost"
-                            className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"
-                        >
-                            <span className="mr-2 icon-add" />
-                            Post a Job
-                        </Link>
-                        <Link
+                            style={style}
                             to="/registerAdmin"
                             className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"
                         >
@@ -71,6 +73,7 @@ class Navbar extends Component {
                             Make A Admin
                         </Link>
                         <Link
+                            style={style}
                             to="/"
                             onClick={this.onLogout.bind(this)}
                             className="btn btn-primary border-width-2 d-none d-lg-inline-block"
@@ -85,6 +88,7 @@ class Navbar extends Component {
             return (
                 <div className="ml-auto">
                     <Link
+                        style={style}
                         to="/login"
                         className="btn btn-primary border-width-2 d-none d-lg-inline-block"
                     >
@@ -92,6 +96,7 @@ class Navbar extends Component {
                         Log In
                     </Link>
                     <Link
+                        style={style}
                         to="/login/admin"
                         className="btn btn-outline-white border-width-2 d-none d-lg-inline-block"
                     >
@@ -135,12 +140,9 @@ class Navbar extends Component {
                             <Link to="/allpostjobs">
                                 <span
                                     onClick={() =>
-                                        this.props.getCompanyEvent(
-                                            {
-                                                id: this.props.auth.user.id
-                                            },
-                                            this.props.history
-                                        )
+                                        this.props.getCompanyEvent({
+                                            id: this.props.auth.user.id
+                                        })
                                     }
                                     className="nav-link"
                                 >
@@ -196,7 +198,7 @@ class Navbar extends Component {
                 <div className="container-fluid">
                     <div className="row align-items-center">
                         <div className="site-logo col-6">
-                            <Link to="/">JobBoard</Link>
+                            <Link to="/">JobAdda</Link>
                         </div>
 
                         <nav className="mx-auto site-navigation">

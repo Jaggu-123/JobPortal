@@ -5,7 +5,7 @@ import { registerExp } from "../../../actions/authActions";
 import { withRouter } from "react-router-dom";
 
 const style = {
-    backgroundImage: `url("images/landing.jpg")`
+    backgroundImage: `url("images/xyz.jpg")`
 };
 
 class RegisterExperience extends Component {
@@ -29,6 +29,7 @@ class RegisterExperience extends Component {
         e.preventDefault();
 
         const newUser = {
+            user_account_id: this.props.auth.user.id,
             companyName: this.state.companyName,
             position: this.state.position,
             description: this.state.description
@@ -167,7 +168,11 @@ class RegisterExperience extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
 export default connect(
-    null,
+    mapStateToProps,
     { registerExp }
 )(withRouter(RegisterExperience));

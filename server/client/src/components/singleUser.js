@@ -1,10 +1,21 @@
 import React, { Component } from "react";
-import { searchUserID } from "../actions/authActions";
+import {
+    searchUserID,
+    deleteEducation,
+    deleteUser,
+    deleteExperience,
+    logoutUser
+} from "../actions/authActions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const style = {
-    backgroundImage: `url("/images/hero_1.jpg")`
+    backgroundImage: `url("/images/xyz.jpg")`
+};
+
+const style2 = {
+    marginLeft: 300
 };
 
 const style1 = {
@@ -14,12 +25,17 @@ const style1 = {
 class SingleUser extends Component {
     constructor() {
         super();
+        this.onhandleUser = this.onhandleUser.bind(this);
     }
     componentDidMount() {
         const bindval = {
             id: this.props.match.params.userid
         };
         this.props.searchUserID(bindval);
+    }
+    onhandleUser(e) {
+        this.props.logoutUser();
+        this.props.deleteUser({ id: this.props.user.id }, this.props.history);
     }
     render() {
         const job = this.props.user;
@@ -92,7 +108,7 @@ class SingleUser extends Component {
                                 <div className="row">
                                     <div className="col-12">
                                         <Link
-                                            to=""
+                                            to={`${job.resume}`}
                                             className="btn btn-block btn-light btn-md"
                                         >
                                             <span className="icon-heart-o mr-2 text-danger" />
@@ -114,60 +130,134 @@ class SingleUser extends Component {
                                     </figure> */}
                                     <h3 className="h5 d-flex align-items-center mb-4 text-primary">
                                         <span className="icon-align-left mr-3" />
-                                        Description
+                                        Address
                                     </h3>
-                                    <p>{job.description}</p>
+                                    <div className="mb-2">
+                                        <strong className="text-black">
+                                            Email :
+                                        </strong>{" "}
+                                        {job.email}
+                                    </div>
+                                    <div className="mb-2">
+                                        <strong className="text-black">
+                                            Street Address :
+                                        </strong>{" "}
+                                        {job.streetAddress}
+                                    </div>
+                                    <div className="mb-2">
+                                        <strong className="text-black">
+                                            City :
+                                        </strong>{" "}
+                                        {job.city}
+                                    </div>
+                                    <div className="mb-2">
+                                        <strong className="text-black">
+                                            Country :
+                                        </strong>{" "}
+                                        {job.country}
+                                    </div>
 
-                                    <h3 className="h5 d-flex align-items-center mb-4 text-primary">
-                                        <span className="icon-align-left mr-3" />
-                                        Educational Detail
-                                    </h3>
-                                    <div className="mb-2">
-                                        <strong className="text-black">
-                                            Degree name:
-                                        </strong>{" "}
-                                        {job.degreename}
-                                    </div>
-                                    <div className="mb-2">
-                                        <strong className="text-black">
-                                            Institute name:
-                                        </strong>{" "}
-                                        {job.instituteName}
-                                    </div>
-                                    <div className="mb-2">
-                                        <strong className="text-black">
-                                            CGPA:
-                                        </strong>{" "}
-                                        {job.cgpa}
-                                    </div>
+                                    {job.degreeName == null ? (
+                                        <Link
+                                            to="/registerEducation"
+                                            className="btn btn-primary btn-sm"
+                                            style={style2}
+                                        >
+                                            Insert Educational Details
+                                        </Link>
+                                    ) : (
+                                        <div>
+                                            <h3 className="h5 d-flex align-items-center mb-4 text-primary">
+                                                <span className="icon-align-left mr-3" />
+                                                Educational Detail
+                                                <button
+                                                    className="btn btn-danger btn-sm"
+                                                    onClick={() =>
+                                                        this.props.deleteEducation(
+                                                            {
+                                                                id:
+                                                                    job.educational_id
+                                                            }
+                                                        )
+                                                    }
+                                                    style={style2}
+                                                >
+                                                    Delete Educational Details
+                                                </button>
+                                            </h3>
+                                            <div className="mb-2">
+                                                <strong className="text-black">
+                                                    Degree name:
+                                                </strong>{" "}
+                                                {job.degreeName}
+                                            </div>
+                                            <div className="mb-2">
+                                                <strong className="text-black">
+                                                    Institute name:
+                                                </strong>{" "}
+                                                {job.instituteName}
+                                            </div>
+                                            <div className="mb-2">
+                                                <strong className="text-black">
+                                                    CGPA:
+                                                </strong>{" "}
+                                                {job.cgpa}
+                                            </div>
+                                        </div>
+                                    )}
 
-                                    <h3 className="h5 d-flex align-items-center mb-4 text-primary">
-                                        <span className="icon-align-left mr-3" />
-                                        Experience Detail
-                                    </h3>
-                                    <div className="mb-2">
-                                        <strong className="text-black">
-                                            Company name:
-                                        </strong>{" "}
-                                        {job.companyName}
-                                    </div>
-                                    <div className="mb-2">
-                                        <strong className="text-black">
-                                            Position:
-                                        </strong>{" "}
-                                        {job.position}
-                                    </div>
+                                    {job.companyName == null ? (
+                                        <Link
+                                            to="/registerExperience"
+                                            className="btn btn-primary btn-sm"
+                                            style={style2}
+                                        >
+                                            Insert Experience Details
+                                        </Link>
+                                    ) : (
+                                        <div>
+                                            <h3 className="h5 d-flex align-items-center mb-4 text-primary">
+                                                <span className="icon-align-left mr-3" />
+                                                Experience Detail
+                                                <button
+                                                    className="btn btn-danger btn-sm"
+                                                    onClick={() =>
+                                                        this.props.deleteExperience(
+                                                            {
+                                                                id:
+                                                                    job.experience_id
+                                                            }
+                                                        )
+                                                    }
+                                                    style={style2}
+                                                >
+                                                    Delete Experience Details
+                                                </button>
+                                            </h3>
+                                            <div className="mb-2">
+                                                <strong className="text-black">
+                                                    Company name:
+                                                </strong>{" "}
+                                                {job.companyName}
+                                            </div>
+                                            <div className="mb-2">
+                                                <strong className="text-black">
+                                                    Position:
+                                                </strong>{" "}
+                                                {job.position}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="row mb-5">
                                     <div className="col-12">
-                                        <Link
-                                            to={`${job.resume}`}
-                                            className="btn btn-block btn-light btn-md"
+                                        <button
+                                            onClick={this.onhandleUser}
+                                            className="btn btn-block btn-danger btn-md"
                                         >
-                                            <span className="icon-heart-o mr-2 text-danger" />
-                                            Resume
-                                        </Link>
+                                            Delete User
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -262,5 +352,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { searchUserID }
-)(SingleUser);
+    { searchUserID, deleteEducation, deleteExperience, deleteUser, logoutUser }
+)(withRouter(SingleUser));

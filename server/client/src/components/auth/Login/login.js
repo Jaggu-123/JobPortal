@@ -6,7 +6,7 @@ import LoginUser from "./loginUser";
 import LoginCompany from "./loginCompany";
 
 const style = {
-    backgroundImage: `url("images/landing.jpg")`
+    backgroundImage: `url("images/dream.jpg")`
 };
 
 const login = () => {

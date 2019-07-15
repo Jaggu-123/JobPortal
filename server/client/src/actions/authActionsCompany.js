@@ -23,7 +23,7 @@ export const registerCompany = (
     //     .catch(err => console.log(err));
 };
 
-export const getCompanyEvent = (companyData, history) => dispatch => {
+export const getCompanyEvent = companyData => dispatch => {
     // console.log(companyData);
     axios
         .get("/api/company/getjob", { params: companyData })

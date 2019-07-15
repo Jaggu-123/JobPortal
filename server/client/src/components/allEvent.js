@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getCompanyEvent } from "../actions/authActionsCompany";
 
 const style = {
-    backgroundImage: `url("/images/hero_1.jpg")`
+    backgroundImage: `url("images/xyz.jpg")`
 };
 
 class AllEvent extends Component {
@@ -72,7 +72,7 @@ class AllEvent extends Component {
                         <div class="row mb-5 justify-content-center">
                             <div class="col-md-7 text-center">
                                 <h2 class="section-title mb-2">
-                                    43,167 Job Listed
+                                    Job Listed Are:
                                 </h2>
                             </div>
                         </div>

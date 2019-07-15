@@ -22,6 +22,7 @@ import Jobs from "./components/companyTab";
 import IndexPage from "./components/indexpage";
 import Applyjob from "./components/applyJob";
 import AllEvent from "./components/allEvent";
+import Stuff from "./components/layout/stuff";
 
 class App extends Component {
     render() {
@@ -81,6 +82,7 @@ class App extends Component {
                             path="/registerUser"
                             component={RegisterUser}
                         />
+                        <Route exact path="/" component={Stuff} />
                         <Footer />
                     </div>
                 </BrowserRouter>

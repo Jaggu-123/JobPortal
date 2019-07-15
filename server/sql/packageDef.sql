@@ -69,6 +69,9 @@ create or replace package Project is
 	State addresses.state%type,
 	Country addresses.country%type,
 	Zip addresses.zip%type);
+
+    procedure deletejon
+    (IDD job_event.id%type);
 end Project;
 /
 

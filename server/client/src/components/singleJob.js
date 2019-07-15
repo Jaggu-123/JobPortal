@@ -1,11 +1,16 @@
 import React, { Component } from "react";
-import { searchJobID, applyJob, allApplyUsers } from "../actions/getJobs";
+import {
+    searchJobID,
+    applyJob,
+    allApplyUsers,
+    DeleteJob
+} from "../actions/getJobs";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 
 const style = {
-    backgroundImage: `url("/images/hero_1.jpg")`
+    backgroundImage: `url("images/xyz.jpg")`
 };
 
 const style1 = {
@@ -29,7 +34,7 @@ class SingleJob extends Component {
             id: this.props.job.id,
             user_account_id: this.props.auth.user.id
         };
-        this.props.applyJob(bind);
+        this.props.applyJob(bind, this.props.history);
     }
     onhandleUser(e) {
         const bind = {
@@ -37,9 +42,12 @@ class SingleJob extends Component {
         };
         this.props.allApplyUsers(bind, this.props.history);
     }
+    deleteJob(e) {
+        this.props.DeleteJob({ id: this.props.job.id }, this.props.history);
+    }
     render() {
         const job = this.props.job;
-
+        console.log(job);
         return (
             <div>
                 <section
@@ -109,8 +117,8 @@ class SingleJob extends Component {
                                 </div>
                             </div>
                             <div className="col-lg-4">
-                                <div className="row">
-                                    {this.props.auth.user.type == 1 ? (
+                                {this.props.auth.user.type == 1 ? (
+                                    <div className="row">
                                         <div className="col-12">
                                             <button
                                                 onClick={() => this.onhandle()}
@@ -119,7 +127,9 @@ class SingleJob extends Component {
                                                 Apply Now
                                             </button>
                                         </div>
-                                    ) : (
+                                    </div>
+                                ) : (
+                                    <div className="row">
                                         <div className="col-12">
                                             <button
                                                 onClick={() =>
@@ -130,8 +140,8 @@ class SingleJob extends Component {
                                                 See Response
                                             </button>
                                         </div>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className="row">
@@ -163,12 +173,10 @@ class SingleJob extends Component {
                                     ) : (
                                         <div className="col-12">
                                             <button
-                                                onClick={() =>
-                                                    this.onhandleUser()
-                                                }
-                                                className="btn btn-block btn-light btn-md"
+                                                onClick={() => this.deleteJob()}
+                                                className="btn btn-block btn-primary btn-md"
                                             >
-                                                See Response
+                                                Delete Job
                                             </button>
                                         </div>
                                     )}
@@ -278,5 +286,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    { searchJobID, applyJob, allApplyUsers }
+    { searchJobID, applyJob, allApplyUsers, DeleteJob }
 )(withRouter(SingleJob));

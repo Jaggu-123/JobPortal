@@ -10,6 +10,27 @@ export const registerAdmin = (userData, history) => dispatch => {
         .catch(err => console.log(err));
 };
 
+export const deleteUser = (userData, history) => dispatch => {
+    axios
+        .post("/api/users/delete", userData)
+        .then(res => history.push("/"))
+        .catch(err => console.log(err));
+};
+
+export const deleteEducation = userData => dispatch => {
+    axios
+        .post("/api/users/delete/education", userData)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err));
+};
+
+export const deleteExperience = userData => dispatch => {
+    axios
+        .post("/api/users/delete/experience", userData)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err));
+};
+
 export const searchUserID = searchUser => dispatch => {
     console.log(searchUser);
     axios
@@ -70,20 +91,26 @@ export const loginUser = (userData, history) => dispatch => {
             console.log(decoded);
             history.push("/");
         })
-        .catch(err => console.log(err));
+        .catch(err => alert("UserName or Password is wrong"));
 };
 
 // Set logged in user
 export const setCurrentUser = () => dispatch => {
-    const token = localStorage.getItem("jwtToken");
-    if (token == null) {
-        unsetCurrentUser({});
-    } else {
-        const decoded = jwt_decode(token);
-        dispatch({
-            type: "SET_CURRENT_USER",
-            payload: decoded
-        });
+    try {
+        const token = localStorage.getItem("jwtToken");
+        if (token == null) {
+            unsetCurrentUser({});
+        } else {
+            const decoded = jwt_decode(token);
+            dispatch({
+                type: "SET_CURRENT_USER",
+                payload: decoded
+            });
+        }
+    } catch (err) {
+        console.log("invalid token");
+        localStorage.removeItem("jwtToken");
+        console.log(err);
     }
 };
 

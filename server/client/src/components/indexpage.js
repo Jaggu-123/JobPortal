@@ -10,7 +10,7 @@ const style = {
 };
 
 const stylebg = {
-    backgroundImage: `url("images/landing.jpg")`
+    backgroundImage: `url("images/xyz.jpg")`
 };
 
 const options = [
@@ -75,7 +75,7 @@ class IndexPage extends Component {
                         <Link to={`/job/${job.id}`} />
                         <div class="job-listing-logo">
                             <img
-                                src="images/job_logo_1.jpg"
+                                src={`${job.logo}`}
                                 alt="Free Website Template by Free-Template.co"
                                 class="img-fluid"
                             />
@@ -160,7 +160,7 @@ class IndexPage extends Component {
                                         <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
                                             <input
                                                 type="submit"
-                                                value="Log In"
+                                                value="Search Job"
                                                 class="btn btn-primary btn-lg btn-block text-white btn-search"
                                             />
                                         </div>

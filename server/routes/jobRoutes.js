@@ -95,12 +95,31 @@ module.exports = (app, connection) => {
         );
     });
 
+    app.post("/api/job/delete", (req, res) => {
+        const bind = {
+            id: parseInt(req.body.id)
+        };
+
+        console.log(bind);
+
+        connection.execute("begin Project.deletejon(:id); end;", bind, function(
+            err,
+            result
+        ) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("deletejob");
+            }
+        });
+    });
+
     app.post("/api/jobs/register", (req, res) => {
         var bindvars = {
             CompanyID: req.body.companyid,
             JobPostName: req.body.jobPostName,
             IsActive: req.body.active,
-            JobDescription: req.body.jobDescription,
+            JobDescription: req.body.description,
             Salary: req.body.salary,
             Skill: req.body.skill,
             JobType: req.body.jobType,
@@ -110,6 +129,8 @@ module.exports = (app, connection) => {
             Country: req.body.country,
             Zip: req.body.zip
         };
+
+        console.log(bindvars);
 
         connection.execute(
             "begin Project.insertJobEvent(:CompanyID,:JobPostName,:IsActive,:JobDescription,:Salary,:Skill,:JobType,:StreetAddress,:City,:State,:Country,:Zip); end;",
@@ -138,6 +159,7 @@ module.exports = (app, connection) => {
                     console.log(err);
                 } else {
                     console.log(result);
+                    res.send("hi");
                 }
             }
         );
@@ -241,6 +263,7 @@ module.exports = (app, connection) => {
                                                                     .rows[0][8]
                                                         };
                                                         array.push(component);
+                                                        console.log(component);
                                                         res.send(component);
                                                     }
                                                 }
@@ -325,100 +348,18 @@ module.exports = (app, connection) => {
                 console.log(err);
             } else {
                 rowsProcessed = result.rows.length;
-                //console.log(result);
-                // const ans = array(rowsProcessed, result);
-                // console.log(ans);
-                // console.log(rowsProcessed);
                 var ans = [];
-                for (var i = 0; i < rowsProcessed; i++) {
-                    var row = result.rows[i];
-                    console.log(row);
+                result.rows.map(arr => {
+                    // var row = result.rows[i];
+
                     var bindpost = {
-                        id: row[2]
+                        id: arr[2]
                     };
 
                     var bindcompany = {
-                        id: row[1]
+                        id: arr[1]
                     };
-
-                    connection.execute(
-                        "select * from job_post where id = :id",
-                        bindpost,
-                        function(err, result) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                // console.log(result);
-                                var row1 = result.rows[0][1];
-
-                                connection.execute(
-                                    "select * from company_account where id = :id",
-                                    bindcompany,
-                                    function(err, result) {
-                                        if (err) {
-                                            console.log(err);
-                                        } else {
-                                            //console.log(result.rows);
-                                            row.push(row1);
-                                            row.push(result.rows[0][3]);
-                                            //var array = [];
-
-                                            var component = {
-                                                id: row[0],
-                                                companyName: row[10],
-                                                job_post: row[9],
-                                                isActive: row[3],
-                                                jobDescription: row[4],
-                                                salary: row[5],
-                                                skill: row[6],
-                                                job_type: row[7],
-                                                logo: result.rows[0][8]
-                                            };
-                                            //console.log(row);
-                                            //array.push(component);
-                                            ans.push(component);
-                                            //console.log("Push");
-                                            // res.send(ans);
-                                        }
-                                    }
-                                );
-                            }
-                        }
-                    );
-                }
-                setTimeout(() => {
-                    //console.log(ans);
-                    res.send(ans);
-                }, 3000);
-            }
-        });
-    });
-
-    app.get("/api/jobsmultiple/salary", (req, res) => {
-        const bindvars = {
-            salary: req.query.options
-        };
-        connection.execute(
-            "select * from job_event where salary= :salary ",
-            bindvars,
-            function(err, result) {
-                var rowsProcessed = 0;
-                if (err) {
-                    console.log(err);
-                } else {
-                    rowsProcessed = result.rows.length;
-                    var ans = [];
-                    for (var i = 0; i < rowsProcessed; i++) {
-                        var row = result.rows[i];
-
-                        var bindpost = {
-                            id: row[2]
-                        };
-
-                        var bindcompany = {
-                            id: row[1]
-                        };
-
+                    setTimeout(() => {
                         connection.execute(
                             "select * from job_post where id = :id",
                             bindpost,
@@ -427,52 +368,234 @@ module.exports = (app, connection) => {
                                     console.log(err);
                                 } else {
                                     var row1 = result.rows[0][1];
-
-                                    connection.execute(
-                                        "select companyName from company_account where id = :id",
-                                        bindcompany,
-                                        function(err, result) {
-                                            if (err) {
-                                                console.log(err);
-                                            } else {
-                                                row.push(row1);
-                                                row.push(result.rows[0][0]);
-                                                //var array = [];
-                                                var component = {
-                                                    id: row[0],
-                                                    companyName: row[10],
-                                                    job_post: row[9],
-                                                    isActive: row[3],
-                                                    jobDescription: row[4],
-                                                    salary: row[5],
-                                                    skill: row[6],
-                                                    job_type: row[7]
-                                                };
-                                                //array.push(component);
-                                                ans.push(component);
-                                                //res.send(ans);
+                                    setTimeout(() => {
+                                        connection.execute(
+                                            "select companyName,logo from company_account where id = :id",
+                                            bindcompany,
+                                            function(err, result) {
+                                                if (err) {
+                                                    console.log(err);
+                                                } else {
+                                                    arr.push(row1);
+                                                    arr.push(result.rows[0][0]);
+                                                    arr.push(result.rows[0][1]);
+                                                    //var array = [];
+                                                    var component = {
+                                                        id: arr[0],
+                                                        companyName: arr[10],
+                                                        logo: arr[11],
+                                                        job_post: arr[9],
+                                                        isActive: arr[3],
+                                                        jobDescription: arr[4],
+                                                        salary: arr[5],
+                                                        skill: arr[6],
+                                                        job_type: arr[7]
+                                                    };
+                                                    //array.push(component);
+                                                    setTimeout(() => {
+                                                        //console.log(ans);
+                                                        ans.push(component);
+                                                        //  console.log(ans);
+                                                    }, 1000);
+                                                    // ans.push(component);
+                                                    // res.send(array);
+                                                }
                                             }
-                                        }
-                                    );
+                                        );
+                                    }, 1000);
                                 }
                             }
                         );
-                    }
+                    }, 1000);
+                });
+                // console.log(ans);
+                setTimeout(() => {
+                    // console.log(ans);
+                    res.send(ans);
+                }, 7000);
+            }
+        });
+    });
+    app.get("/api/jobsmultiple/salary", (req, res) => {
+        const bindvars = {
+            salary: req.query.options
+        };
+        connection.execute(
+            "select * from job_event where salary= :salary",
+            bindvars,
+            function(err, result) {
+                var rowsProcessed = 0;
+                if (err) {
+                    console.log(err);
+                } else {
+                    rowsProcessed = result.rows.length;
+                    var ans = [];
+                    result.rows.map(arr => {
+                        // var row = result.rows[i];
+
+                        var bindpost = {
+                            id: arr[2]
+                        };
+
+                        var bindcompany = {
+                            id: arr[1]
+                        };
+                        setTimeout(() => {
+                            connection.execute(
+                                "select * from job_post where id = :id",
+                                bindpost,
+                                function(err, result) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        var row1 = result.rows[0][1];
+                                        setTimeout(() => {
+                                            connection.execute(
+                                                "select companyName,logo from company_account where id = :id",
+                                                bindcompany,
+                                                function(err, result) {
+                                                    if (err) {
+                                                        console.log(err);
+                                                    } else {
+                                                        arr.push(row1);
+                                                        arr.push(
+                                                            result.rows[0][0]
+                                                        );
+                                                        arr.push(
+                                                            result.rows[0][1]
+                                                        );
+                                                        //var array = [];
+                                                        var component = {
+                                                            id: arr[0],
+                                                            companyName:
+                                                                arr[10],
+                                                            logo: arr[11],
+                                                            job_post: arr[9],
+                                                            isActive: arr[3],
+                                                            jobDescription:
+                                                                arr[4],
+                                                            salary: arr[5],
+                                                            skill: arr[6],
+                                                            job_type: arr[7]
+                                                        };
+                                                        //array.push(component);
+                                                        setTimeout(() => {
+                                                            //console.log(ans);
+                                                            ans.push(component);
+                                                            //  console.log(ans);
+                                                        }, 1000);
+                                                        // ans.push(component);
+                                                        // res.send(array);
+                                                    }
+                                                }
+                                            );
+                                        }, 1000);
+                                    }
+                                }
+                            );
+                        }, 1000);
+                    });
+                    // console.log(ans);
                     setTimeout(() => {
-                        console.log(ans);
+                        // console.log(ans);
                         res.send(ans);
-                    }, 3000);
+                    }, 7000);
                 }
             }
         );
     });
 
     app.get("/api/jobsmultiple/active", (req, res) => {
+        connection.execute(
+            "select * from job_event where isActive=1",
+            {},
+            function(err, result) {
+                var rowsProcessed = 0;
+                if (err) {
+                    console.log(err);
+                } else {
+                    rowsProcessed = result.rows.length;
+                    var ans = [];
+                    result.rows.map(arr => {
+                        // var row = result.rows[i];
+
+                        var bindpost = {
+                            id: arr[2]
+                        };
+
+                        var bindcompany = {
+                            id: arr[1]
+                        };
+                        setTimeout(() => {
+                            connection.execute(
+                                "select * from job_post where id = :id",
+                                bindpost,
+                                function(err, result) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        var row1 = result.rows[0][1];
+                                        setTimeout(() => {
+                                            connection.execute(
+                                                "select companyName,logo from company_account where id = :id",
+                                                bindcompany,
+                                                function(err, result) {
+                                                    if (err) {
+                                                        console.log(err);
+                                                    } else {
+                                                        arr.push(row1);
+                                                        arr.push(
+                                                            result.rows[0][0]
+                                                        );
+                                                        arr.push(
+                                                            result.rows[0][1]
+                                                        );
+                                                        //var array = [];
+                                                        var component = {
+                                                            id: arr[0],
+                                                            companyName:
+                                                                arr[10],
+                                                            logo: arr[11],
+                                                            job_post: arr[9],
+                                                            isActive: arr[3],
+                                                            jobDescription:
+                                                                arr[4],
+                                                            salary: arr[5],
+                                                            skill: arr[6],
+                                                            job_type: arr[7]
+                                                        };
+                                                        //array.push(component);
+                                                        setTimeout(() => {
+                                                            //console.log(ans);
+                                                            ans.push(component);
+                                                            //  console.log(ans);
+                                                        }, 1000);
+                                                        // ans.push(component);
+                                                        // res.send(array);
+                                                    }
+                                                }
+                                            );
+                                        }, 1000);
+                                    }
+                                }
+                            );
+                        }, 1000);
+                    });
+                    // console.log(ans);
+                    setTimeout(() => {
+                        // console.log(ans);
+                        res.send(ans);
+                    }, 7000);
+                }
+            }
+        );
+    });
+    app.get("/api/jobsmultiple/job_type", (req, res) => {
         const bindvars = {
-            isActive: 1
+            job_type: req.query.options
         };
         connection.execute(
-            "select * from job_event where isActive= :isActive ",
+            "select * from job_event where job_type= :job_type",
             bindvars,
             function(err, result) {
                 var rowsProcessed = 0;
@@ -481,64 +604,305 @@ module.exports = (app, connection) => {
                 } else {
                     rowsProcessed = result.rows.length;
                     var ans = [];
-                    for (var i = 0; i < rowsProcessed; i++) {
-                        var row = result.rows[i];
+                    result.rows.map(arr => {
+                        // var row = result.rows[i];
 
                         var bindpost = {
-                            id: row[2]
+                            id: arr[2]
                         };
 
                         var bindcompany = {
-                            id: row[1]
+                            id: arr[1]
                         };
-
-                        connection.execute(
-                            "select * from job_post where id = :id",
-                            bindpost,
-                            function(err, result) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    var row1 = result.rows[0][1];
-
-                                    connection.execute(
-                                        "select companyName from company_account where id = :id",
-                                        bindcompany,
-                                        function(err, result) {
-                                            if (err) {
-                                                console.log(err);
-                                            } else {
-                                                row.push(row1);
-                                                row.push(result.rows[0][0]);
-                                                //var array = [];
-                                                var component = {
-                                                    id: row[0],
-                                                    companyName: row[10],
-                                                    job_post: row[9],
-                                                    isActive: row[3],
-                                                    jobDescription: row[4],
-                                                    salary: row[5],
-                                                    skill: row[6],
-                                                    job_type: row[7]
-                                                };
-                                                //array.push(component);
-                                                ans.push(component);
-                                                // res.send(ans);
-                                            }
-                                        }
-                                    );
+                        setTimeout(() => {
+                            connection.execute(
+                                "select * from job_post where id = :id",
+                                bindpost,
+                                function(err, result) {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        var row1 = result.rows[0][1];
+                                        setTimeout(() => {
+                                            connection.execute(
+                                                "select companyName,logo from company_account where id = :id",
+                                                bindcompany,
+                                                function(err, result) {
+                                                    if (err) {
+                                                        console.log(err);
+                                                    } else {
+                                                        arr.push(row1);
+                                                        arr.push(
+                                                            result.rows[0][0]
+                                                        );
+                                                        arr.push(
+                                                            result.rows[0][1]
+                                                        );
+                                                        //var array = [];
+                                                        var component = {
+                                                            id: arr[0],
+                                                            companyName:
+                                                                arr[10],
+                                                            job_post: arr[9],
+                                                            logo: arr[11],
+                                                            isActive: arr[3],
+                                                            jobDescription:
+                                                                arr[4],
+                                                            salary: arr[5],
+                                                            skill: arr[6],
+                                                            job_type: arr[7]
+                                                        };
+                                                        //array.push(component);
+                                                        setTimeout(() => {
+                                                            //console.log(ans);
+                                                            ans.push(component);
+                                                            //  console.log(ans);
+                                                        }, 1000);
+                                                        // ans.push(component);
+                                                        // res.send(array);
+                                                    }
+                                                }
+                                            );
+                                        }, 1000);
+                                    }
                                 }
-                            }
-                        );
-                    }
+                            );
+                        }, 1000);
+                    });
+                    // console.log(ans);
                     setTimeout(() => {
                         console.log(ans);
                         res.send(ans);
-                    }, 3000);
+                    }, 7000);
                 }
             }
         );
     });
+
+    // app.get("/api/jobsmultiple", (req, res) => {
+    //     connection.execute("select * from job_event", {}, function(
+    //         err,
+    //         result
+    //     ) {
+    //         var rowsProcessed = 0;
+    //         if (err) {
+    //             console.log(err);
+    //         } else {
+    //             rowsProcessed = result.rows.length;
+    //             //console.log(result);
+    //             // const ans = array(rowsProcessed, result);
+    //             // console.log(ans);
+    //             // console.log(rowsProcessed);
+    //             var ans = [];
+    //             for (var i = 0; i < rowsProcessed; i++) {
+    //                 var row = result.rows[i];
+    //                 console.log(row);
+    //                 var bindpost = {
+    //                     id: row[2]
+    //                 };
+
+    //                 var bindcompany = {
+    //                     id: row[1]
+    //                 };
+
+    //                 connection.execute(
+    //                     "select * from job_post where id = :id",
+    //                     bindpost,
+    //                     function(err, result) {
+    //                         if (err) {
+    //                             console.log(err);
+    //                         } else {
+    //                             // console.log(result);
+    //                             var row1 = result.rows[0][1];
+
+    //                             connection.execute(
+    //                                 "select * from company_account where id = :id",
+    //                                 bindcompany,
+    //                                 function(err, result) {
+    //                                     if (err) {
+    //                                         console.log(err);
+    //                                     } else {
+    //                                         //console.log(result.rows);
+    //                                         row.push(row1);
+    //                                         row.push(result.rows[0][3]);
+    //                                         //var array = [];
+
+    //                                         var component = {
+    //                                             id: row[0],
+    //                                             companyName: row[10],
+    //                                             job_post: row[9],
+    //                                             isActive: row[3],
+    //                                             jobDescription: row[4],
+    //                                             salary: row[5],
+    //                                             skill: row[6],
+    //                                             job_type: row[7],
+    //                                             logo: result.rows[0][8]
+    //                                         };
+    //                                         //console.log(row);
+    //                                         //array.push(component);
+    //                                         ans.push(component);
+    //                                         //console.log("Push");
+    //                                         // res.send(ans);
+    //                                     }
+    //                                 }
+    //                             );
+    //                         }
+    //                     }
+    //                 );
+    //             }
+    //             setTimeout(() => {
+    //                 //console.log(ans);
+    //                 res.send(ans);
+    //             }, 3000);
+    //         }
+    //     });
+    // });
+
+    // app.get("/api/jobsmultiple/salary", (req, res) => {
+    //     const bindvars = {
+    //         salary: req.query.options
+    //     };
+    //     connection.execute(
+    //         "select * from job_event where salary= :salary ",
+    //         bindvars,
+    //         function(err, result) {
+    //             var rowsProcessed = 0;
+    //             if (err) {
+    //                 console.log(err);
+    //             } else {
+    //                 rowsProcessed = result.rows.length;
+    //                 var ans = [];
+    //                 for (var i = 0; i < rowsProcessed; i++) {
+    //                     var row = result.rows[i];
+
+    //                     var bindpost = {
+    //                         id: row[2]
+    //                     };
+
+    //                     var bindcompany = {
+    //                         id: row[1]
+    //                     };
+
+    //                     connection.execute(
+    //                         "select * from job_post where id = :id",
+    //                         bindpost,
+    //                         function(err, result) {
+    //                             if (err) {
+    //                                 console.log(err);
+    //                             } else {
+    //                                 var row1 = result.rows[0][1];
+
+    //                                 connection.execute(
+    //                                     "select companyName from company_account where id = :id",
+    //                                     bindcompany,
+    //                                     function(err, result) {
+    //                                         if (err) {
+    //                                             console.log(err);
+    //                                         } else {
+    //                                             row.push(row1);
+    //                                             row.push(result.rows[0][0]);
+    //                                             //var array = [];
+    //                                             var component = {
+    //                                                 id: row[0],
+    //                                                 companyName: row[10],
+    //                                                 job_post: row[9],
+    //                                                 isActive: row[3],
+    //                                                 jobDescription: row[4],
+    //                                                 salary: row[5],
+    //                                                 skill: row[6],
+    //                                                 job_type: row[7]
+    //                                             };
+    //                                             //array.push(component);
+    //                                             ans.push(component);
+    //                                             //res.send(ans);
+    //                                         }
+    //                                     }
+    //                                 );
+    //                             }
+    //                         }
+    //                     );
+    //                 }
+    //                 setTimeout(() => {
+    //                     console.log(ans);
+    //                     res.send(ans);
+    //                 }, 3000);
+    //             }
+    //         }
+    //     );
+    // });
+
+    // app.get("/api/jobsmultiple/active", (req, res) => {
+    //     const bindvars = {
+    //         isActive: 1
+    //     };
+    //     connection.execute(
+    //         "select * from job_event where isActive= :isActive ",
+    //         bindvars,
+    //         function(err, result) {
+    //             var rowsProcessed = 0;
+    //             if (err) {
+    //                 console.log(err);
+    //             } else {
+    //                 rowsProcessed = result.rows.length;
+    //                 var ans = [];
+    //                 for (var i = 0; i < rowsProcessed; i++) {
+    //                     var row = result.rows[i];
+
+    //                     var bindpost = {
+    //                         id: row[2]
+    //                     };
+
+    //                     var bindcompany = {
+    //                         id: row[1]
+    //                     };
+
+    //                     connection.execute(
+    //                         "select * from job_post where id = :id",
+    //                         bindpost,
+    //                         function(err, result) {
+    //                             if (err) {
+    //                                 console.log(err);
+    //                             } else {
+    //                                 var row1 = result.rows[0][1];
+
+    //                                 connection.execute(
+    //                                     "select companyName from company_account where id = :id",
+    //                                     bindcompany,
+    //                                     function(err, result) {
+    //                                         if (err) {
+    //                                             console.log(err);
+    //                                         } else {
+    //                                             row.push(row1);
+    //                                             row.push(result.rows[0][0]);
+    //                                             //var array = [];
+    //                                             var component = {
+    //                                                 id: row[0],
+    //                                                 companyName: row[10],
+    //                                                 job_post: row[9],
+    //                                                 isActive: row[3],
+    //                                                 jobDescription: row[4],
+    //                                                 salary: row[5],
+    //                                                 skill: row[6],
+    //                                                 job_type: row[7]
+    //                                             };
+    //                                             //array.push(component);
+    //                                             ans.push(component);
+    //                                             // res.send(ans);
+    //                                         }
+    //                                     }
+    //                                 );
+    //                             }
+    //                         }
+    //                     );
+    //                 }
+    //                 setTimeout(() => {
+    //                     console.log(ans);
+    //                     res.send(ans);
+    //                 }, 3000);
+    //             }
+    //         }
+    //     );
+    // });
 
     // app.get("/api/jobsmultiple/job_type", (req, res) => {
     //     const bindvars = {

@@ -5,7 +5,7 @@ import { registerCompany } from "../../../actions/authActionsCompany";
 import { withRouter } from "react-router-dom";
 
 const style = {
-    backgroundImage: `url("images/landing.jpg")`
+    backgroundImage: `url("images/xyz.jpg")`
 };
 
 class RegisterCompany extends Component {

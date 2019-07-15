@@ -2,13 +2,18 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAllJobs } from "../actions/getJobs";
+import { getCompanyEvent } from "../actions/authActionsCompany";
 
 class CompanyTab extends Component {
     constructor(props) {
         super(props);
     }
     componentDidMount() {
-        this.props.getAllJobs();
+        if (this.props.auth.user.type === 2) {
+            this.props.getCompanyEvent({ id: this.props.auth.user.id });
+        } else {
+            this.props.getAllJobs();
+        }
     }
     renderList() {
         // console.log(this.props.jobs);
@@ -56,37 +61,11 @@ class CompanyTab extends Component {
                 <div class="container">
                     <div class="row mb-5 justify-content-center">
                         <div class="col-md-7 text-center">
-                            <h2 class="section-title mb-2">
-                                43,167 Job Listed
-                            </h2>
+                            <h2 class="section-title mb-2">Job Listed Are:</h2>
                         </div>
                     </div>
 
                     <ul class="job-listings mb-5">{this.renderList()}</ul>
-
-                    <div class="row pagination-wrap">
-                        <div class="col-md-6 text-center text-md-left mb-4 mb-md-0">
-                            <span>Showing 1-7 Of 43,167 Jobs</span>
-                        </div>
-                        <div class="col-md-6 text-center text-md-right">
-                            <div class="custom-pagination ml-auto">
-                                <a href="#" class="prev">
-                                    Prev
-                                </a>
-                                <div class="d-inline-block">
-                                    <a href="#" class="active">
-                                        1
-                                    </a>
-                                    <a href="#">2</a>
-                                    <a href="#">3</a>
-                                    <a href="#">4</a>
-                                </div>
-                                <a href="#" class="next">
-                                    Next
-                                </a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
         );
@@ -94,10 +73,11 @@ class CompanyTab extends Component {
 }
 
 const mapStateToProps = state => ({
-    jobs: state.alljobs
+    jobs: state.alljobs,
+    auth: state.auth
 });
 
 export default connect(
     mapStateToProps,
-    { getAllJobs }
+    { getAllJobs, getCompanyEvent }
 )(CompanyTab);

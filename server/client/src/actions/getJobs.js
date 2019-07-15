@@ -13,6 +13,14 @@ export const searchJobID = searchJob => dispatch => {
         .then(res => dispatch({ type: "GET_JOBS", payload: res.data }));
 };
 
+export const DeleteJob = (userData, history) => dispatch => {
+    console.log(userData);
+    axios
+        .post("/api/job/delete", userData)
+        .then(res => history.push("/"))
+        .catch(err => alert(err));
+};
+
 export const registerPost = (userData, history) => dispatch => {
     // console.log(userData);
     axios
@@ -34,10 +42,10 @@ export const allApplyUsers = (userData, history) => dispatch => {
 
 export const applyJob = (applyjob, history) => dispatch => {
     console.log("apply");
-    // axios
-    //     .post("api/job/apply", applyjob)
-    //     .then(res => history.push("/searchpage"))
-    //     .then(err => console.log(err));
+    axios
+        .post("/api/job/apply", applyjob)
+        .then(res => history.push("/searchpage"))
+        .then(err => console.log(err));
 };
 
 export const searchJob = searchJob => dispatch => {
@@ -59,7 +67,7 @@ export const searchJob = searchJob => dispatch => {
             .then(res => dispatch({ type: "SEARCH_JOBS", payload: res.data }));
     } else if (searchJob.value == "company") {
         axios
-            .get("/api/jobsmultiple/companyName", { params: searchJob })
+            .get("/api/company/getjobName", { params: searchJob })
             .then(res => dispatch({ type: "SEARCH_JOBS", payload: res.data }));
     }
 };

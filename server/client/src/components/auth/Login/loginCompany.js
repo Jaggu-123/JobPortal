@@ -75,7 +75,7 @@ class LoginCompany extends Component {
                         <div className="col-md-6">
                             <input
                                 type="submit"
-                                value="Log Up"
+                                value="Log In"
                                 className="btn px-4 btn-primary text-white"
                             />
                         </div>

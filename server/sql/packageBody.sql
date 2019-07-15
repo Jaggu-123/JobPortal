@@ -127,6 +127,26 @@ create or replace package body Project is
 		insert into job_event values(seqJobEvent.nextval, Company_id , Job_post_id , IsActive , JobDescription, Salary , Skill , Job_type , Address_id);
 	
 	end insertJobEvent;
+
+    procedure deletejon
+    (IDD job_event.id%type)
+    as
+       addID int;
+       jobID job_post.id%type;
+    begin
+        
+        dbms_output.put_line('error');
+        select addressID into addID from job_event where id = IDD;
+        
+        select job_post_id into jobID from job_event where id = IDD;
+        delete from job_activity where id=IDD;
+        
+        
+        delete from job_event where id=IDD;
+        delete from job_post where id=jobID;
+        delete from addresses where id=addID;
+       
+    end deletejon;
 end Project;
 /
 
